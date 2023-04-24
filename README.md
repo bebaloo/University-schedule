@@ -2,4 +2,3 @@
 
 [UML-diagram](https://git.foxminded.ua/-/ide/project/foxstudent104156/university-cms/tree/main/-/Class_Diagram.png/)
 
-https://git.foxminded.ua/-/ide/project/foxstudent104156/university-cms/tree/main/-/Class_Diagram.png/
