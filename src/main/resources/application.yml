@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/university-cms
+    username: postgres
+    password: baloo
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
