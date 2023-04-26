@@ -18,12 +18,12 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Timetable {
+public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
-    @OneToMany(mappedBy = "timetable", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL)
     private Set<Lesson> lessons = new HashSet<>(5);
 
     @OneToOne
@@ -34,8 +34,8 @@ public class Timetable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Timetable timetable = (Timetable) o;
-        return id != null && Objects.equals(id, timetable.id);
+        Schedule schedule = (Schedule) o;
+        return id != null && Objects.equals(id, schedule.id);
     }
 
     @Override

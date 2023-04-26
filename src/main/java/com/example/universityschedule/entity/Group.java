@@ -33,7 +33,7 @@ public class Group {
     private Set<User> students = new HashSet<>();
 
     @OneToOne(mappedBy = "group")
-    private Timetable timetable;
+    private Schedule schedule;
 
     @Override
     public boolean equals(Object o) {
