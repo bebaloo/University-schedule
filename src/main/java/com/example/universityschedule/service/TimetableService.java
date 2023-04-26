@@ -27,12 +27,12 @@ public class TimetableService {
     }
 
     public Timetable getById(Long id) {
-        Optional<Timetable> timetable = timetableRepository.findById(id);
+        Optional<Timetable> schedule = timetableRepository.findById(id);
 
-        timetable.ifPresentOrElse(g -> log.info("Getting " + g),
+        schedule.ifPresentOrElse(g -> log.info("Getting " + g),
                 () -> log.info("Schedule with id: " + id + " not found"));
 
-        return timetable.orElse(null);
+        return schedule.orElse(null);
     }
 
     @Transactional
