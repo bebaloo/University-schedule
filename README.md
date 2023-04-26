@@ -23,12 +23,12 @@ groups : groups of student, who listen lecture
 ### Student
 
 - Can view own schelude flow
-- Schould see schedule according with selected date/range filter
+- Schould see timetable according with selected date/range filter
 
 ### Tutor
 
 - Has all possibilities as a Student
-- Can update schedule: change classroom, date of lesson, etc. or cancel lesson
+- Can update timetable: change classroom, date of lesson, etc. or cancel lesson
 
 ### Admin
 

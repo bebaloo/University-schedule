@@ -37,7 +37,7 @@ public class Lesson {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "schedule_id")
-    private Schedule schedule;
+    private Timetable timetable;
 
     @Override
     public boolean equals(Object o) {
