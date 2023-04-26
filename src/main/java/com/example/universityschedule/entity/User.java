@@ -27,4 +27,6 @@ public class User {
     private String department;
     private Role role;
     private Status status;
+    @OneToOne(mappedBy = "user")
+    private Timetable timetable;
 }

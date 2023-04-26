@@ -21,20 +21,16 @@ public class Lesson {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
-
     private String name;
     private String classroom;
     @Enumerated(EnumType.STRING)
     private DayOfWeek dayOfWeek;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tutor_id")
     private User tutor;
-
     @OneToOne
     @JoinColumn(name = "group_id")
     private Group group;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "schedule_id")
     private Timetable timetable;

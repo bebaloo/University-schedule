@@ -22,18 +22,12 @@ public class Group {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
-
     private String name;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id")
     private Course course;
-
     @OneToMany
     private Set<User> students = new HashSet<>();
-
-    @OneToOne(mappedBy = "group")
-    private Timetable timetable;
 
     @Override
     public boolean equals(Object o) {

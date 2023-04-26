@@ -13,7 +13,7 @@ import java.util.Set;
 
 
 @Entity
-@Table(name = "schedules")
+@Table(name = "timetables")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -25,10 +25,9 @@ public class Timetable {
     private Long id;
     @OneToMany(mappedBy = "timetable", cascade = CascadeType.ALL)
     private Set<Lesson> lessons = new HashSet<>();
-
     @OneToOne
-    @JoinColumn(name = "group_id")
-    private Group group;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Override
     public boolean equals(Object o) {
