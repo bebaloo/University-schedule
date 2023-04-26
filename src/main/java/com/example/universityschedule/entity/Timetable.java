@@ -24,7 +24,7 @@ public class Timetable {
     @Column(name = "id", nullable = false)
     private Long id;
     @OneToMany(mappedBy = "timetable", cascade = CascadeType.ALL)
-    private Set<Lesson> lessons = new HashSet<>(5);
+    private Set<Lesson> lessons = new HashSet<>();
 
     @OneToOne
     @JoinColumn(name = "group_id")
