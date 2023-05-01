@@ -29,4 +29,8 @@ public class User {
     private Status status;
     @OneToOne(mappedBy = "user")
     private Timetable timetable;
+
+    public User(Long id) {
+        this.id = id;
+    }
 }

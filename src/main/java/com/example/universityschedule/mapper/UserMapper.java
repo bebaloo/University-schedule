@@ -9,5 +9,5 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 @Mapper(componentModel = "spring")
 public interface UserMapper {
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void map(User userUpdate, @MappingTarget User user);
+    void updateUser(User userUpdate, @MappingTarget User user);
 }

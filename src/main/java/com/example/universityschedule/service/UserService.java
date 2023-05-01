@@ -53,12 +53,12 @@ public class UserService {
         try {
             User userToUpdate = userRepository.getReferenceById(user.getId());
 
-            userMapper.map(user, userToUpdate);
-            User updatedUser = userRepository.save(userToUpdate);
+            userMapper.updateUser(user, userToUpdate);
+            userRepository.save(userToUpdate);
 
-            log.info(userToUpdate + " was updated to " + updatedUser);
+            log.info(userToUpdate + " was updated");
 
-            return updatedUser;
+            return userToUpdate;
         } catch (RuntimeException e) {
             log.warn(user + " not updated");
             throw new EntityNotUpdatedException(user + " not updated");

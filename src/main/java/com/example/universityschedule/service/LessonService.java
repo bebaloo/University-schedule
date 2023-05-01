@@ -53,12 +53,12 @@ public class LessonService {
         try {
             Lesson lessonToUpdate = lessonRepository.getReferenceById(lesson.getId());
 
-            lessonMapper.map(lesson, lessonToUpdate);
-            Lesson updatedCourse = lessonRepository.save(lessonToUpdate);
+            lessonMapper.updateLesson(lesson, lessonToUpdate);
+            lessonRepository.save(lessonToUpdate);
 
-            log.info(lessonToUpdate + " was updated to " + updatedCourse);
+            log.info(lessonToUpdate + " was updated");
 
-            return updatedCourse;
+            return lessonToUpdate;
         } catch (RuntimeException e) {
             log.warn(lesson + " not updated");
             throw new EntityNotUpdatedException(lesson + " not updated");

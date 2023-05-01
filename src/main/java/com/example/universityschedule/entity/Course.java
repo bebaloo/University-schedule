@@ -22,6 +22,10 @@ public class Course {
     private Long id;
     private String name;
 
+    public Course(String name) {
+        this.name = name;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

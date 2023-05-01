@@ -29,6 +29,10 @@ public class Timetable {
     @JoinColumn(name = "user_id")
     private User user;
 
+    public Timetable(Long id) {
+        this.id = id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -53,12 +53,12 @@ public class TimetableService {
         try {
             Timetable timetableToUpdate = timetableRepository.getReferenceById(timetable.getId());
 
-            timetableMapper.map(timetable, timetableToUpdate);
-            Timetable updatedTimetable = timetableRepository.save(timetableToUpdate);
+            timetableMapper.updateTimetable(timetable, timetableToUpdate);
+            timetableRepository.save(timetableToUpdate);
 
-            log.info(timetableToUpdate + " was updated to " + updatedTimetable);
+            log.info(timetableToUpdate + " was updated");
 
-            return updatedTimetable;
+            return timetableToUpdate;
         } catch (RuntimeException e) {
             log.warn(timetable + " not updated");
             throw new EntityNotUpdatedException(timetable + " not updated");

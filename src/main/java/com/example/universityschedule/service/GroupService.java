@@ -53,12 +53,12 @@ public class GroupService {
         try {
             Group groupToUpdate = groupRepository.getReferenceById(group.getId());
 
-            groupMapper.map(group, groupToUpdate);
-            Group updatedGroup = groupRepository.save(groupToUpdate);
+            groupMapper.updateGroup(group, groupToUpdate);
+            groupRepository.save(groupToUpdate);
 
-            log.info(groupToUpdate + " was updated to " + updatedGroup);
+            log.info(groupToUpdate + " was updated");
 
-            return updatedGroup;
+            return groupToUpdate;
         } catch (RuntimeException e) {
             log.warn(group + " not updated");
             throw new EntityNotUpdatedException(group + " not updated");

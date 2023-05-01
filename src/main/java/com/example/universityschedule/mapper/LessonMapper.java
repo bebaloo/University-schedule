@@ -9,5 +9,5 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 @Mapper(componentModel = "spring")
 public interface LessonMapper {
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void map(Lesson lessonUpdate, @MappingTarget Lesson lesson);
+    void updateLesson(Lesson lesson, @MappingTarget Lesson lessonToUpdate);
 }

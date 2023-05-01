@@ -35,6 +35,15 @@ public class Lesson {
     @JoinColumn(name = "schedule_id")
     private Timetable timetable;
 
+    public Lesson(String name) {
+        this.name = name;
+    }
+
+    public Lesson(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

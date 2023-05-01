@@ -29,6 +29,15 @@ public class Group {
     @OneToMany
     private Set<User> students = new HashSet<>();
 
+    public Group(String name) {
+        this.name = name;
+    }
+
+    public Group(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
