@@ -1,7 +1,7 @@
 package com.example.universityschedule.entity;
 
-import com.example.universityschedule.Role;
-import com.example.universityschedule.Status;
+import com.example.universityschedule.security.Role;
+import com.example.universityschedule.security.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
