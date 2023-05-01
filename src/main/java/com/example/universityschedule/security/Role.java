@@ -1,5 +1,6 @@
-package com.example.universityschedule;
+package com.example.universityschedule.security;
 
+import com.example.universityschedule.security.Permission;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
