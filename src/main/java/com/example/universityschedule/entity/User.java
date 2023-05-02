@@ -37,4 +37,16 @@ public class User {
     public User(Long id) {
         this.id = id;
     }
+
+    public User(Long id, String firstname, String lastname, String email, String faculty, String department, Role role, Status status, Group group) {
+        this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.faculty = faculty;
+        this.department = department;
+        this.role = role;
+        this.status = status;
+        this.group = group;
+    }
 }

@@ -42,6 +42,12 @@ public class Lesson {
         this.name = name;
     }
 
+    public Lesson(Long id, String name, Group group) {
+        this.id = id;
+        this.name = name;
+        this.group = group;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

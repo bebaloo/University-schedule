@@ -39,6 +39,12 @@ public class Group {
         this.name = name;
     }
 
+    public Group(Long id, String name, Course course) {
+        this.id = id;
+        this.name = name;
+        this.course = course;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
