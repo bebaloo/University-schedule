@@ -24,7 +24,6 @@ public class DataGeneratorService {
     private final CourseService courseService;
     private final GroupService groupService;
     private final LessonService lessonService;
-    private final TimetableService timetableService;
     private final UserService userService;
     private final Faker faker;
     private final FakeValuesService fakeService;
@@ -35,14 +34,11 @@ public class DataGeneratorService {
             userService.createAll(generateUsers());
             groupService.createAll(generateGroups());
             lessonService.createAll(generateLessons());
-            timetableService.createAll(generateTimetables());
 
             addGroupsToCourses();
             addStudentsToGroups();
             addGroupsToLessons();
-            addTimetablesToLessons();
         }
-
     }
 
     private void addGroupsToCourses() {
@@ -58,11 +54,6 @@ public class DataGeneratorService {
     private void addGroupsToLessons() {
         List<Lesson> lessons = lessonService.getAll();
         lessons.forEach(lesson -> lessonService.addGroup(lesson.getId(), (long) faker.number().numberBetween(1, 11)));
-    }
-
-    private void addTimetablesToLessons() {
-        List<Lesson> lessons = lessonService.getAll();
-        lessons.forEach(lesson -> lessonService.addTimetable(lesson.getId(), (long) faker.number().numberBetween(1, 3)));
     }
 
     private List<Course> generateCourses() {
@@ -104,17 +95,6 @@ public class DataGeneratorService {
             lessons.add(lesson);
         }
         return lessons;
-    }
-
-    private List<Timetable> generateTimetables() {
-        List<Timetable> timetables = new ArrayList<>();
-
-        for (int i = 0; i <= TIMETABLE_NUMBER; i++) {
-            Timetable timetable = new Timetable();
-
-            timetables.add(timetable);
-        }
-        return timetables;
     }
 
     private List<User> generateUsers() {

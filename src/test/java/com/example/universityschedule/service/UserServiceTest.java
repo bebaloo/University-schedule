@@ -6,7 +6,6 @@ import com.example.universityschedule.exception.EntityNotDeletedException;
 import com.example.universityschedule.exception.EntityNotUpdatedException;
 import com.example.universityschedule.mapper.UserMapper;
 import com.example.universityschedule.repository.GroupRepository;
-import com.example.universityschedule.repository.TimetableRepository;
 import com.example.universityschedule.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +27,6 @@ class UserServiceTest {
     private UserService userService;
     @MockBean
     private GroupRepository groupRepository;
-    @MockBean
-    private TimetableRepository timetableRepository;
     @MockBean
     private UserRepository userRepository;
     @MockBean

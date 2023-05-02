@@ -19,5 +19,4 @@ public class GeneratorConfig {
     public Faker faker() {
         return new Faker();
     }
-
 }

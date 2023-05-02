@@ -31,10 +31,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Status status;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "timetable_id")
-    private Timetable timetable;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
     private Group group;
 

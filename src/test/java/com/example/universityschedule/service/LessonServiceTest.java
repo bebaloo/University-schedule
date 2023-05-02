@@ -7,7 +7,6 @@ import com.example.universityschedule.exception.EntityNotUpdatedException;
 import com.example.universityschedule.mapper.LessonMapper;
 import com.example.universityschedule.repository.GroupRepository;
 import com.example.universityschedule.repository.LessonRepository;
-import com.example.universityschedule.repository.TimetableRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,8 +27,6 @@ class LessonServiceTest {
     private LessonService lessonService;
     @MockBean
     private GroupRepository groupRepository;
-    @MockBean
-    private TimetableRepository timetableRepository;
     @MockBean
     private LessonRepository lessonRepository;
     @MockBean

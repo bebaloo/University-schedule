@@ -2,7 +2,6 @@ package com.example.universityschedule.service;
 
 import com.example.universityschedule.entity.Group;
 import com.example.universityschedule.entity.Lesson;
-import com.example.universityschedule.entity.Timetable;
 import com.example.universityschedule.exception.EntityNotCreatedException;
 import com.example.universityschedule.exception.EntityNotDeletedException;
 import com.example.universityschedule.exception.EntityNotFoundException;
@@ -10,7 +9,6 @@ import com.example.universityschedule.exception.EntityNotUpdatedException;
 import com.example.universityschedule.mapper.LessonMapper;
 import com.example.universityschedule.repository.GroupRepository;
 import com.example.universityschedule.repository.LessonRepository;
-import com.example.universityschedule.repository.TimetableRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -25,7 +23,6 @@ import java.util.Optional;
 public class LessonService {
     private final LessonRepository lessonRepository;
     private final GroupRepository groupRepository;
-    private final TimetableRepository timetableRepository;
     private final LessonMapper lessonMapper;
 
     public List<Lesson> getAll() {
@@ -112,22 +109,6 @@ public class LessonService {
         } catch (RuntimeException e) {
             log.info("Group with id: " + groupId + " was not added to lesson with id: " + lessonId);
             throw new EntityNotUpdatedException("Group with id: " + groupId + " was not added to lesson with id: " + lessonId);
-        }
-    }
-
-    @Transactional
-    public void addTimetable(Long lessonId, Long timetableId) {
-        try {
-            Lesson lesson = lessonRepository.findById(lessonId).orElseThrow(EntityNotFoundException::new);
-            Timetable timetable = timetableRepository.findById(timetableId).orElseThrow(EntityNotFoundException::new);
-
-            lesson.setTimetable(timetable);
-
-            lessonRepository.save(lesson);
-            log.info("Timetable with id: " + timetableId + " was added to lesson with id: " + lessonId);
-        } catch (RuntimeException e) {
-            log.info("Timetable with id: " + timetableId + " was not added to lesson with id: " + lessonId);
-            throw new EntityNotUpdatedException("Group with id: " + timetableId + " was not added to lesson with id: " + lessonId);
         }
     }
 }

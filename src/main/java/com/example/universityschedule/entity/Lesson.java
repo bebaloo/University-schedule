@@ -32,9 +32,6 @@ public class Lesson {
     @OneToOne
     @JoinColumn(name = "group_id")
     private Group group;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "timetable_id")
-    private Timetable timetable;
 
     public Lesson(String name) {
         this.name = name;

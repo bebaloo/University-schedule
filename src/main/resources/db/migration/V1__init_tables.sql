@@ -1,7 +1,6 @@
 create sequence courses_seq start with 1 increment by 1;
 create sequence groups_seq start with 1 increment by 1;
 create sequence lessons_seq start with 1 increment by 1;
-create sequence timetables_seq start with 1 increment by 1;
 create sequence users_seq start with 1 increment by 1;
 
 create table courses
@@ -28,13 +27,6 @@ create table lessons
     group_id    bigint,
     timetable_id bigint,
     tutor_id    bigint,
-    primary key (id)
-);
-
-create table timetables
-(
-    id      bigint not null,
-    user_id bigint,
     primary key (id)
 );
 
