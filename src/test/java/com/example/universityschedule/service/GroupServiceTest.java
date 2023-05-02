@@ -5,6 +5,7 @@ import com.example.universityschedule.exception.EntityNotCreatedException;
 import com.example.universityschedule.exception.EntityNotDeletedException;
 import com.example.universityschedule.exception.EntityNotUpdatedException;
 import com.example.universityschedule.mapper.GroupMapper;
+import com.example.universityschedule.repository.CourseRepository;
 import com.example.universityschedule.repository.GroupRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ import static org.mockito.Mockito.when;
 class GroupServiceTest {
     @Autowired
     private GroupService groupService;
+    @MockBean
+    private CourseRepository courseRepository;
     @MockBean
     private GroupRepository groupRepository;
     @MockBean

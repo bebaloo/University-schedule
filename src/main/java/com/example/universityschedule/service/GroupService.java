@@ -9,7 +9,6 @@ import com.example.universityschedule.exception.EntityNotUpdatedException;
 import com.example.universityschedule.mapper.GroupMapper;
 import com.example.universityschedule.repository.CourseRepository;
 import com.example.universityschedule.repository.GroupRepository;
-import com.example.universityschedule.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -24,7 +23,6 @@ import java.util.Optional;
 public class GroupService {
     private final GroupRepository groupRepository;
     private final CourseRepository courseRepository;
-    private final UserRepository userRepository;
     private final GroupMapper groupMapper;
 
     public List<Group> getAll() {
