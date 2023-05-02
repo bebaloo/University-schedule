@@ -1,10 +1,15 @@
 package com.example.universityschedule.service;
 
+import com.example.universityschedule.entity.Group;
+import com.example.universityschedule.entity.Timetable;
 import com.example.universityschedule.entity.User;
 import com.example.universityschedule.exception.EntityNotCreatedException;
 import com.example.universityschedule.exception.EntityNotDeletedException;
+import com.example.universityschedule.exception.EntityNotFoundException;
 import com.example.universityschedule.exception.EntityNotUpdatedException;
 import com.example.universityschedule.mapper.UserMapper;
+import com.example.universityschedule.repository.GroupRepository;
+import com.example.universityschedule.repository.TimetableRepository;
 import com.example.universityschedule.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -19,6 +24,8 @@ import java.util.Optional;
 @Log4j2
 public class UserService {
     private final UserRepository userRepository;
+    private final GroupRepository groupRepository;
+    private final TimetableRepository timetableRepository;
     private final UserMapper userMapper;
 
     public List<User> getAll() {
@@ -76,6 +83,51 @@ public class UserService {
         } catch (RuntimeException e) {
             log.warn("User with: " + id + " not deleted");
             throw new EntityNotDeletedException("User with: " + id + " not deleted");
+        }
+    }
+
+    @Transactional
+    public List<User> createAll(List<User> users) {
+        try {
+            List<User> createdUsers = userRepository.saveAll(users);
+            log.info(users + " were created");
+
+            return createdUsers;
+        } catch (RuntimeException e) {
+            log.warn(users + " were not created");
+            throw new EntityNotCreatedException(users + " were not created");
+        }
+    }
+
+    @Transactional
+    public void addGroup(Long studentId, Long groupId) {
+        try {
+            Group group = groupRepository.findById(groupId).orElseThrow(EntityNotFoundException::new);
+            User student = userRepository.findById(studentId).orElseThrow(EntityNotFoundException::new);
+
+            student.setGroup(group);
+
+            userRepository.save(student);
+            log.info("Student with id: " + studentId + " was added to group with id: " + groupId);
+        } catch (RuntimeException e) {
+            log.info("Student with id: " + studentId + " was not added to group with id: " + groupId);
+            throw new EntityNotUpdatedException("Student with id: " + studentId + " was added to group with id: " + groupId);
+        }
+    }
+
+    @Transactional
+    public void addTimetable(Long userId, Long timetableId) {
+        try {
+            User user = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
+            Timetable timetable = timetableRepository.findById(timetableId).orElseThrow(EntityNotFoundException::new);
+
+            user.setTimetable(timetable);
+
+            userRepository.save(user);
+            log.info("Timetable with id: " + timetableId + " was added to user with id: " + userId);
+        } catch (RuntimeException e) {
+            log.warn("Timetable with id: " + timetableId + " was not added to user with id: " + userId);
+            throw new EntityNotUpdatedException("Timetable with id: " + timetableId + " was not added to user with id: " + userId);
         }
     }
 }

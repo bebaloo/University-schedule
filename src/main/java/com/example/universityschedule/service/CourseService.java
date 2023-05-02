@@ -78,4 +78,17 @@ public class CourseService {
             throw new EntityNotDeletedException("Course with: " + id + " not deleted");
         }
     }
+
+    @Transactional
+    public List<Course> createAll(List<Course> courses) {
+        try {
+            List<Course> createdCourses = courseRepository.saveAll(courses);
+            log.info(courses + " was created");
+
+            return createdCourses;
+        } catch (RuntimeException e) {
+            log.warn(courses + " were not created");
+            throw new EntityNotCreatedException(courses + " were not created");
+        }
+    }
 }

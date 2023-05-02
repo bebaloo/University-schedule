@@ -19,14 +19,15 @@ import java.util.Set;
 @Setter
 public class Group {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "group_generator")
+    @SequenceGenerator(name = "group_generator", sequenceName = "groups_seq", allocationSize = 1)
     @Column(name = "id", nullable = false)
     private Long id;
     private String name;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id")
     private Course course;
-    @OneToMany
+    @OneToMany(mappedBy = "group")
     private Set<User> students = new HashSet<>();
 
     public Group(String name) {

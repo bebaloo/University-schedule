@@ -20,14 +20,14 @@ import java.util.Set;
 @Setter
 public class Timetable {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "timetable_generator")
+    @SequenceGenerator(name = "timetable_generator", sequenceName = "timetables_seq", allocationSize = 1)
     @Column(name = "id", nullable = false)
     private Long id;
     @OneToMany(mappedBy = "timetable", cascade = CascadeType.ALL)
     private Set<Lesson> lessons = new HashSet<>();
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @OneToMany(mappedBy = "timetable")
+    private Set<User> user;
 
     public Timetable(Long id) {
         this.id = id;

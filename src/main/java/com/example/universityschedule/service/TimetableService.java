@@ -78,4 +78,17 @@ public class TimetableService {
             throw new EntityNotDeletedException("Schedule with: " + id + " not deleted");
         }
     }
+
+    @Transactional
+    public List<Timetable> createAll(List<Timetable> timetables) {
+        try {
+            List<Timetable> createdTimetables = timetableRepository.saveAll(timetables);
+            log.info(timetables + " were created");
+
+            return createdTimetables;
+        } catch (RuntimeException e) {
+            log.warn(timetables + " were not created");
+            throw new EntityNotCreatedException(timetables + " were not created");
+        }
+    }
 }

@@ -18,7 +18,8 @@ import java.util.Objects;
 @Setter
 public class Lesson {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "lesson_generator")
+    @SequenceGenerator(name = "lesson_generator", sequenceName = "lessons_seq", allocationSize = 1)
     @Column(name = "id", nullable = false)
     private Long id;
     private String name;
@@ -32,7 +33,7 @@ public class Lesson {
     @JoinColumn(name = "group_id")
     private Group group;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "schedule_id")
+    @JoinColumn(name = "timetable_id")
     private Timetable timetable;
 
     public Lesson(String name) {
