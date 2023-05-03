@@ -4,7 +4,7 @@ import com.example.universityschedule.entity.Group;
 import com.example.universityschedule.entity.User;
 import com.example.universityschedule.security.Role;
 import com.example.universityschedule.security.Status;
-import com.example.universityschedule.service.UserServiceImpl;
+import com.example.universityschedule.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

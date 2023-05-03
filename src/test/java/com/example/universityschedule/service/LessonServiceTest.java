@@ -8,6 +8,7 @@ import com.example.universityschedule.exception.EntityNotUpdatedException;
 import com.example.universityschedule.mapper.LessonMapper;
 import com.example.universityschedule.repository.GroupRepository;
 import com.example.universityschedule.repository.LessonRepository;
+import com.example.universityschedule.service.impl.LessonServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

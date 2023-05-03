@@ -2,7 +2,7 @@ package com.example.universityschedule.controller;
 
 import com.example.universityschedule.entity.Group;
 import com.example.universityschedule.entity.Lesson;
-import com.example.universityschedule.service.LessonServiceImpl;
+import com.example.universityschedule.service.impl.LessonServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

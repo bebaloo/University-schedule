@@ -1,4 +1,4 @@
-package com.example.universityschedule.service;
+package com.example.universityschedule.service.impl;
 
 import com.example.universityschedule.entity.Group;
 import com.example.universityschedule.entity.User;
@@ -9,6 +9,7 @@ import com.example.universityschedule.exception.EntityNotUpdatedException;
 import com.example.universityschedule.mapper.UserMapper;
 import com.example.universityschedule.repository.GroupRepository;
 import com.example.universityschedule.repository.UserRepository;
+import com.example.universityschedule.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
