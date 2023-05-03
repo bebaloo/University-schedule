@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,12 +30,15 @@ public class GroupService {
     }
 
     public Group getById(Long id) {
-        Optional<Group> course = groupRepository.findById(id);
+        try {
+            Group group = groupRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+            log.info("Getting " + group);
 
-        course.ifPresentOrElse(g -> log.info("Getting " + g),
-                () -> log.info("Group with id: " + id + " not found"));
-
-        return course.orElse(null);
+            return group;
+        } catch (RuntimeException e) {
+            log.info("Group with id: " + id + " not found");
+            throw new EntityNotFoundException("Group with id: " + id + " not found");
+        }
     }
 
     @Transactional

@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,12 +30,15 @@ public class LessonService {
     }
 
     public Lesson getById(Long id) {
-        Optional<Lesson> course = lessonRepository.findById(id);
+        try {
+            Lesson lesson = lessonRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+            log.info("Getting " + lesson);
 
-        course.ifPresentOrElse(g -> log.info("Getting " + g),
-                () -> log.info("Lesson with id: " + id + " not found"));
-
-        return course.orElse(null);
+            return lesson;
+        } catch (RuntimeException e) {
+            log.info("Lesson with id: " + id + " not found");
+            throw new EntityNotFoundException("Lesson with id: " + id + " not found");
+        }
     }
 
     @Transactional

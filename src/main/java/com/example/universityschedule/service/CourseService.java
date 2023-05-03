@@ -3,6 +3,7 @@ package com.example.universityschedule.service;
 import com.example.universityschedule.entity.Course;
 import com.example.universityschedule.exception.EntityNotCreatedException;
 import com.example.universityschedule.exception.EntityNotDeletedException;
+import com.example.universityschedule.exception.EntityNotFoundException;
 import com.example.universityschedule.exception.EntityNotUpdatedException;
 import com.example.universityschedule.mapper.CourseMapper;
 import com.example.universityschedule.repository.CourseRepository;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,12 +27,15 @@ public class CourseService {
     }
 
     public Course getById(Long id) {
-        Optional<Course> course = courseRepository.findById(id);
+        try {
+            Course course = courseRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+            log.info("Getting " + course);
 
-        course.ifPresentOrElse(g -> log.info("Getting " + g),
-                () -> log.info("Course with id: " + id + " not found"));
-
-        return course.orElse(null);
+            return course;
+        } catch (RuntimeException e) {
+            log.info("Course with id: " + id + " not found");
+            throw new EntityNotFoundException("Course with id: " + id + " not found");
+        }
     }
 
     @Transactional

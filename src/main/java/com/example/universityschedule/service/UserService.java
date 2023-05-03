@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,12 +30,15 @@ public class UserService {
     }
 
     public User getById(Long id) {
-        Optional<User> user = userRepository.findById(id);
+        try {
+            User user = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+            log.info("Getting " + user);
 
-        user.ifPresentOrElse(g -> log.info("Getting " + g),
-                () -> log.info("User with id: " + id + " not found"));
-
-        return user.orElse(null);
+            return user;
+        } catch (RuntimeException e) {
+            log.info("User with id: " + id + " not found");
+            throw new EntityNotFoundException("User with id: " + id + " not found");
+        }
     }
 
     @Transactional

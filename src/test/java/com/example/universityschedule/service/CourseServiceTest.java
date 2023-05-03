@@ -3,6 +3,7 @@ package com.example.universityschedule.service;
 import com.example.universityschedule.entity.Course;
 import com.example.universityschedule.exception.EntityNotCreatedException;
 import com.example.universityschedule.exception.EntityNotDeletedException;
+import com.example.universityschedule.exception.EntityNotFoundException;
 import com.example.universityschedule.exception.EntityNotUpdatedException;
 import com.example.universityschedule.mapper.CourseMapper;
 import com.example.universityschedule.repository.CourseRepository;
@@ -49,10 +50,13 @@ class CourseServiceTest {
     }
 
     @Test
-    void getById_nonExistId_returnsNull() {
+    void getById_nonExistId_throwsException() {
         when(courseRepository.findById(any(Long.class))).thenReturn(Optional.empty());
 
-        assertNull(courseService.getById(1L));
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class,
+                () -> courseService.getById(1L));
+
+        assertTrue(exception.getMessage().contains("not found"));
         verify(courseRepository).findById(1L);
     }
 

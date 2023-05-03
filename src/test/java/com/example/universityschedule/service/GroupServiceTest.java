@@ -3,6 +3,7 @@ package com.example.universityschedule.service;
 import com.example.universityschedule.entity.Group;
 import com.example.universityschedule.exception.EntityNotCreatedException;
 import com.example.universityschedule.exception.EntityNotDeletedException;
+import com.example.universityschedule.exception.EntityNotFoundException;
 import com.example.universityschedule.exception.EntityNotUpdatedException;
 import com.example.universityschedule.mapper.GroupMapper;
 import com.example.universityschedule.repository.CourseRepository;
@@ -51,10 +52,13 @@ class GroupServiceTest {
     }
 
     @Test
-    void getById_nonExistId_returnsNull() {
+    void getById_nonExistId_throwsException() {
         when(groupRepository.findById(any(Long.class))).thenReturn(Optional.empty());
 
-        assertNull(groupService.getById(1L));
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class,
+                () -> groupService.getById(1L));
+
+        assertTrue(exception.getMessage().contains("not found"));
         verify(groupRepository).findById(1L);
     }
 
