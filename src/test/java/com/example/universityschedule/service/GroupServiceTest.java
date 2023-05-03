@@ -3,9 +3,12 @@ package com.example.universityschedule.service;
 import com.example.universityschedule.entity.Group;
 import com.example.universityschedule.exception.EntityNotCreatedException;
 import com.example.universityschedule.exception.EntityNotDeletedException;
+import com.example.universityschedule.exception.EntityNotFoundException;
 import com.example.universityschedule.exception.EntityNotUpdatedException;
 import com.example.universityschedule.mapper.GroupMapper;
+import com.example.universityschedule.repository.CourseRepository;
 import com.example.universityschedule.repository.GroupRepository;
+import com.example.universityschedule.service.impl.GroupServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,10 +23,12 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest(classes = GroupService.class)
+@SpringBootTest(classes = GroupServiceImpl.class)
 class GroupServiceTest {
     @Autowired
     private GroupService groupService;
+    @MockBean
+    private CourseRepository courseRepository;
     @MockBean
     private GroupRepository groupRepository;
     @MockBean
@@ -48,10 +53,13 @@ class GroupServiceTest {
     }
 
     @Test
-    void getById_nonExistId_returnsNull() {
+    void getById_nonExistId_throwsException() {
         when(groupRepository.findById(any(Long.class))).thenReturn(Optional.empty());
 
-        assertNull(groupService.getById(1L));
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class,
+                () -> groupService.getById(1L));
+
+        assertTrue(exception.getMessage().contains("not found"));
         verify(groupRepository).findById(1L);
     }
 

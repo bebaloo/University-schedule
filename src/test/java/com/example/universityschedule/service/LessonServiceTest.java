@@ -3,9 +3,12 @@ package com.example.universityschedule.service;
 import com.example.universityschedule.entity.Lesson;
 import com.example.universityschedule.exception.EntityNotCreatedException;
 import com.example.universityschedule.exception.EntityNotDeletedException;
+import com.example.universityschedule.exception.EntityNotFoundException;
 import com.example.universityschedule.exception.EntityNotUpdatedException;
 import com.example.universityschedule.mapper.LessonMapper;
+import com.example.universityschedule.repository.GroupRepository;
 import com.example.universityschedule.repository.LessonRepository;
+import com.example.universityschedule.service.impl.LessonServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,10 +23,12 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest(classes = LessonService.class)
+@SpringBootTest(classes = LessonServiceImpl.class)
 class LessonServiceTest {
     @Autowired
     private LessonService lessonService;
+    @MockBean
+    private GroupRepository groupRepository;
     @MockBean
     private LessonRepository lessonRepository;
     @MockBean
@@ -48,10 +53,13 @@ class LessonServiceTest {
     }
 
     @Test
-    void getById_nonExistId_returnsNull() {
+    void getById_nonExistId_throwsException() {
         when(lessonRepository.findById(any(Long.class))).thenReturn(Optional.empty());
 
-        assertNull(lessonService.getById(1L));
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class,
+                () -> lessonService.getById(1L));
+
+        assertTrue(exception.getMessage().contains("not found"));
         verify(lessonRepository).findById(1L);
     }
 
