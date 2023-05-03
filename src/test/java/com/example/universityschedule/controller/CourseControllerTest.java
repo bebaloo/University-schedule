@@ -1,7 +1,7 @@
 package com.example.universityschedule.controller;
 
 import com.example.universityschedule.entity.Course;
-import com.example.universityschedule.service.CourseService;
+import com.example.universityschedule.service.CourseServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,20 +24,20 @@ class CourseControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private CourseService courseService;
+    private CourseServiceImpl courseServiceImpl;
 
     @Test
     void courses_returnsView() throws Exception {
         List<Course> courses = new ArrayList<>();
         courses.add(new Course(1L, "English"));
 
-        given(courseService.getAll()).willReturn(courses);
+        given(courseServiceImpl.getAll()).willReturn(courses);
 
         mockMvc.perform(get("/courses"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("courses"))
                 .andExpect(model().attribute("courses", courses));
 
-        verify(courseService).getAll();
+        verify(courseServiceImpl).getAll();
     }
 }

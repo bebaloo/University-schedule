@@ -22,7 +22,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest(classes = GroupService.class)
+@SpringBootTest(classes = GroupServiceImpl.class)
 class GroupServiceTest {
     @Autowired
     private GroupService groupService;

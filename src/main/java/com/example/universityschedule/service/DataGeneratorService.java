@@ -19,7 +19,6 @@ public class DataGeneratorService {
     private static final Integer COURSES_NUMBER = 5;
     private static final Integer GROUPS_NUMBER = 10;
     private static final Integer LESSONS_NUMBER = 20;
-    private static final Integer TIMETABLE_NUMBER = 2;
 
     private final CourseService courseService;
     private final GroupService groupService;

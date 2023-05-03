@@ -2,7 +2,7 @@ package com.example.universityschedule.controller;
 
 import com.example.universityschedule.entity.Course;
 import com.example.universityschedule.entity.Group;
-import com.example.universityschedule.service.GroupService;
+import com.example.universityschedule.service.GroupServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,20 +25,20 @@ class GroupControllerTest {
     @Autowired
     MockMvc mockMvc;
     @MockBean
-    private GroupService groupService;
+    private GroupServiceImpl groupServiceImpl;
 
     @Test
     void groups_returnsView() throws Exception {
         List<Group> groups = new ArrayList<>();
         groups.add(new Group(1L, "aa-11", new Course(1L, "English")));
 
-        given(groupService.getAll()).willReturn(groups);
+        given(groupServiceImpl.getAll()).willReturn(groups);
 
         mockMvc.perform(get("/groups"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("groups"))
                 .andExpect(model().attribute("groups", groups));
 
-        verify(groupService).getAll();
+        verify(groupServiceImpl).getAll();
     }
 }

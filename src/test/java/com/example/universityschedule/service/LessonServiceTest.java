@@ -22,7 +22,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest(classes = LessonService.class)
+@SpringBootTest(classes = LessonServiceImpl.class)
 class LessonServiceTest {
     @Autowired
     private LessonService lessonService;
