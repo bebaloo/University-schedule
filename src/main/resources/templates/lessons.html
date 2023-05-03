@@ -5,15 +5,8 @@
     <title>Lessons</title>
 </head>
 <body>
-<nav>
-    <ul>
-        <li><a th:href="@{/}">Welcome</a></li>
-        <li><a th:href="@{/users}">Users</a></li>
-        <li><a th:href="@{/groups}">Groups</a></li>
-        <li><a th:href="@{/courses}">Courses</a></li>
-        <li><a th:href="@{/lessons}">Lessons</a></li>
-    </ul>
-</nav>
+
+<div th:insert="navigation :: navbar"></div>
 
 <table border="1px solid black">
     <tr>

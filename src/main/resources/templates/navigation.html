@@ -1,4 +1,11 @@
-<nav id="nav">
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Navigation</title>
+</head>
+<nav th:fragment="navbar" class="navbar">
     <ul>
         <li><a th:href="@{/}">Welcome</a></li>
         <li><a th:href="@{/users}">Users</a></li>

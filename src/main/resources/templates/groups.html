@@ -7,18 +7,13 @@
 </head>
 <body>
 
-<script>
-    var link = document.querySelector('link[rel=import]');
-    var content = link.import.querySelector('#nav');
-    document.body.appendChild(content.cloneNode(true));
-</script>
+<div th:insert="navigation :: navbar"></div>
 
 <table border="1px solid black">
     <tr>
         <td>ID</td>
         <td>Name</td>
         <td>Course</td>
-
     </tr>
     <tr th:each="group : ${groups}">
         <td th:text="${group.id}"></td>
