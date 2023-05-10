@@ -13,4 +13,8 @@ public interface UserService {
     List<User> createAll(List<User> users);
 
     void addGroup(Long userId, Long groupId);
+
+    void changeRole(Long id);
+
+    void ban(Long id);
 }

@@ -1,25 +1,34 @@
 package com.example.universityschedule.controller;
 
 import com.example.universityschedule.entity.User;
-import com.example.universityschedule.service.UserService;
+import com.example.universityschedule.security.Role;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
+import java.security.Principal;
+import java.util.Objects;
 
 @Controller
-@RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
-    private final UserService userService;
+    private final UserDetailsService userDetailsService;
 
-    @GetMapping
-    public String users(Model model) {
-        List<User> users = userService.getAll();
-        model.addAttribute("users", users);
-        return "users";
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+    @GetMapping("/user")
+    public String userInterface(Principal principal) {
+        User user = (User) userDetailsService.loadUserByUsername(principal.getName());
+        if (Objects.requireNonNull(user.getRole()) == Role.ADMIN) {
+            return "redirect:/admin";
+        } else if (user.getRole() == Role.TUTOR) {
+            return "redirect:/tutor";
+        } else {
+            return "redirect:/student";
+        }
     }
 }
