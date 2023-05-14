@@ -30,8 +30,6 @@ class UserServiceTest {
     private GroupRepository groupRepository;
     @MockBean
     private UserRepository userRepository;
-    @MockBean
-    private UserMapper userMapper;
 
     @Test
     void getAll_returnsCourses() {

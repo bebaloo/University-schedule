@@ -1,6 +1,6 @@
 package com.example.universityschedule.controller;
 
-import com.example.universityschedule.entity.User;
+import com.example.universityschedule.dto.UserDTO;
 import com.example.universityschedule.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -19,7 +19,7 @@ public class AdminController {
     private final UserService userService;
     @GetMapping
     public String users(Model model) {
-        List<User> users = userService.getAll();
+        List<UserDTO> users = userService.getAll();
         model.addAttribute("users", users);
         return "users";
     }

@@ -1,40 +1,50 @@
 package com.example.universityschedule.service.impl;
 
+import com.example.universityschedule.dto.UserDTO;
 import com.example.universityschedule.entity.Group;
 import com.example.universityschedule.entity.User;
 import com.example.universityschedule.exception.EntityNotCreatedException;
 import com.example.universityschedule.exception.EntityNotDeletedException;
 import com.example.universityschedule.exception.EntityNotFoundException;
 import com.example.universityschedule.exception.EntityNotUpdatedException;
+import com.example.universityschedule.mapper.UserMapper;
 import com.example.universityschedule.repository.GroupRepository;
 import com.example.universityschedule.repository.UserRepository;
 import com.example.universityschedule.security.Role;
 import com.example.universityschedule.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Log4j2
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
     private final GroupRepository groupRepository;
+    private final UserMapper userMapper;
 
-    public List<User> getAll() {
+    public List<UserDTO> getAll() {
         log.info("Getting all users");
-        return userRepository.findAll();
+        return userMapper.toDto(userRepository.findAll())
+                .stream()
+                .sorted(Comparator.comparing(UserDTO::id))
+                .toList();
     }
 
-    public User getById(Long id) {
+    public UserDTO getById(Long id) {
         try {
             User user = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
             log.info("Getting " + user);
 
-            return user;
+            return userMapper.toDto(user);
         } catch (RuntimeException e) {
             log.info("User with id: " + id + " not found");
             throw new EntityNotFoundException("User with id: " + id + " not found");
@@ -155,5 +165,11 @@ public class UserServiceImpl implements UserService {
             userToUpdate.setGroup(user.getGroup());
         }
         return userToUpdate;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByEmail(username).orElseThrow(()
+                -> new UsernameNotFoundException("User with email: " + username + " not found"));
     }
 }

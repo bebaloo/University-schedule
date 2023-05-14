@@ -8,11 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.security.Principal;
-import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor
-public class UserController {
+public class LoginController {
     private final UserDetailsService userDetailsService;
 
     @GetMapping("/login")
@@ -23,7 +22,7 @@ public class UserController {
     @GetMapping("/user")
     public String userInterface(Principal principal) {
         User user = (User) userDetailsService.loadUserByUsername(principal.getName());
-        if (Objects.requireNonNull(user.getRole()) == Role.ADMIN) {
+        if (user.getRole() == Role.ADMIN) {
             return "redirect:/admin";
         } else if (user.getRole() == Role.TUTOR) {
             return "redirect:/tutor";
