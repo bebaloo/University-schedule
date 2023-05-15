@@ -11,7 +11,7 @@ public interface UserService {
     UserDTO create(User user);
     UserDTO update(User user);
     UserDTO deleteById(Long id);
-    List<User> createAll(List<User> users);
+    List<UserDTO> createAll(List<User> users);
 
     void addGroup(Long userId, Long groupId);
 

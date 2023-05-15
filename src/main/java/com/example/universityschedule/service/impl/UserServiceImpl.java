@@ -95,12 +95,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Transactional
-    public List<User> createAll(List<User> users) {
+    public List<UserDTO> createAll(List<User> users) {
         try {
             List<User> createdUsers = userRepository.saveAll(users);
             log.info(users + " were created");
 
-            return createdUsers;
+            return userMapper.toDto(createdUsers);
         } catch (RuntimeException e) {
             log.warn(users + " were not created");
             throw new EntityNotCreatedException(users + " were not created");
