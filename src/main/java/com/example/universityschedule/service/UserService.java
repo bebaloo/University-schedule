@@ -8,9 +8,9 @@ import java.util.List;
 public interface UserService {
     List<UserDTO> getAll();
     UserDTO getById(Long id);
-    User create(User user);
-    User update(User user);
-    User deleteById(Long id);
+    UserDTO create(User user);
+    UserDTO update(User user);
+    UserDTO deleteById(Long id);
     List<User> createAll(List<User> users);
 
     void addGroup(Long userId, Long groupId);

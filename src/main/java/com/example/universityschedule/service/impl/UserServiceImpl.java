@@ -52,12 +52,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Transactional
-    public User create(User user) {
+    public UserDTO create(User user) {
         try {
             User createdUser = userRepository.save(user);
             log.info(user + " was created");
 
-            return createdUser;
+            return userMapper.toDto(createdUser);
         } catch (RuntimeException e) {
             log.warn(user + " was not created");
             throw new EntityNotCreatedException(user + " was not created");
@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Transactional
-    public User update(User user) {
+    public UserDTO update(User user) {
         try {
             User userToUpdate = userRepository.getReferenceById(user.getId());
 
@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
             log.info(userToUpdate + " was updated");
 
-            return userToUpdate;
+            return userMapper.toDto(userToUpdate);
         } catch (RuntimeException e) {
             log.warn(user + " not updated");
             throw new EntityNotUpdatedException(user + " not updated");
@@ -81,13 +81,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Transactional
-    public User deleteById(Long id) {
+    public UserDTO deleteById(Long id) {
         try {
             User user = userRepository.getReferenceById(id);
             userRepository.delete(user);
             log.info(user + " was deleted");
 
-            return user;
+            return userMapper.toDto(user);
         } catch (RuntimeException e) {
             log.warn("User with: " + id + " not deleted");
             throw new EntityNotDeletedException("User with: " + id + " not deleted");
