@@ -2,8 +2,6 @@ package com.example.universityschedule.dto;
 
 import com.example.universityschedule.entity.Group;
 import com.example.universityschedule.security.Role;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 
 public record UserDTO(
         Long id,
@@ -13,7 +11,6 @@ public record UserDTO(
         String faculty,
         String department,
         boolean isActive,
-        @Enumerated(EnumType.STRING)
         Role role,
         Group group
 ) {

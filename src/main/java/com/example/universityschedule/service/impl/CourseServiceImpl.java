@@ -57,7 +57,7 @@ public class CourseServiceImpl implements CourseService {
         try {
             Course courseToUpdate = courseRepository.getReferenceById(course.getId());
 
-            courseMapper.updateGroup(course, courseToUpdate);
+            courseMapper.updateCourse(course, courseToUpdate);
             courseRepository.save(courseToUpdate);
 
             log.info(courseToUpdate + " was updated");
