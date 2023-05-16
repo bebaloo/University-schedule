@@ -124,18 +124,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void changeRole(Long id) {
+    public void changeRole(Long id, Role role) {
         User user = userRepository.getReferenceById(id);
-        Role role = user.getRole();
-        if (role == Role.STUDENT) {
-            user.setRole(Role.TUTOR);
-        } else if (role == Role.TUTOR) {
-            user.setRole(Role.ADMIN);
-        } else if (role == Role.ADMIN) {
-            user.setRole(Role.STUDENT);
-        }
-
+        user.setRole(role);
         userRepository.save(user);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByEmail(username).orElseThrow(()
+                -> new UsernameNotFoundException("User with email: " + username + " not found"));
     }
 
     @Override
@@ -165,11 +163,5 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             userToUpdate.setGroup(user.getGroup());
         }
         return userToUpdate;
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByEmail(username).orElseThrow(()
-                -> new UsernameNotFoundException("User with email: " + username + " not found"));
     }
 }

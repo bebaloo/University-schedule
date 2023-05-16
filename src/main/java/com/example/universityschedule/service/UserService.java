@@ -2,6 +2,7 @@ package com.example.universityschedule.service;
 
 import com.example.universityschedule.dto.UserDTO;
 import com.example.universityschedule.entity.User;
+import com.example.universityschedule.security.Role;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public interface UserService {
 
     void addGroup(Long userId, Long groupId);
 
-    void changeRole(Long id);
+    void changeRole(Long id, Role role);
 
     void ban(Long id);
 }

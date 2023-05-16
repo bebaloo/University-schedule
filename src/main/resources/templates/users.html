@@ -17,6 +17,7 @@
         <td>Department</td>
         <td>Faculty</td>
         <td>Role</td>
+        <td>Change Role</td>
         <td>Active</td>
     </tr>
     <tr th:each="user : ${users}">
@@ -26,9 +27,16 @@
         <td th:text="${user.email}"></td>
         <td th:text="${user.department}"></td>
         <td th:text="${user.faculty}"></td>
+        <td th:text="${user.role}"></td>
         <td>
             <form th:action="@{/admin/user/role/{id}(id=${user.id})}" method="post">
-                <input type="submit" th:value="${user.role}">
+                <input type="radio" id="admin" name="role" value="ADMIN">
+                <label for="admin">ADMIN</label><br>
+                <input type="radio" id="tutor" name="role" value="TUTOR">
+                <label for="tutor">TUTOR</label><br>
+                <input type="radio" id="student" name="role" value="STUDENT">
+                <label for="student">STUDENT</label>
+                <input type="submit" value="Submit">
             </form>
         </td>
         <td>

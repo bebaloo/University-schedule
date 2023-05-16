@@ -1,14 +1,12 @@
 package com.example.universityschedule.controller;
 
 import com.example.universityschedule.dto.UserDTO;
+import com.example.universityschedule.security.Role;
 import com.example.universityschedule.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,8 +29,8 @@ public class AdminController {
     }
 
     @PostMapping("/user/role/{id}")
-    public String changeRole(@PathVariable Long id) {
-        userService.changeRole(id);
+    public String changeRole(@PathVariable Long id, @RequestParam Role role) {
+        userService.changeRole(id, role);
         return "redirect:/admin";
     }
 }
