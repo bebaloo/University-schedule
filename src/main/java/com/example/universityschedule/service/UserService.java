@@ -3,10 +3,11 @@ package com.example.universityschedule.service;
 import com.example.universityschedule.dto.UserDTO;
 import com.example.universityschedule.entity.User;
 import com.example.universityschedule.security.Role;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 
-public interface UserService {
+public interface UserService extends UserDetailsService {
     List<UserDTO> getAll();
     UserDTO getById(Long id);
     UserDTO create(User user);
