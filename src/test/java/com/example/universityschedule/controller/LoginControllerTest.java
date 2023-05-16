@@ -1,8 +1,9 @@
 package com.example.universityschedule.controller;
 
-import com.example.universityschedule.entity.Course;
 import com.example.universityschedule.entity.Group;
-import com.example.universityschedule.service.impl.GroupServiceImpl;
+import com.example.universityschedule.entity.User;
+import com.example.universityschedule.security.Role;
+import com.example.universityschedule.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,25 +21,25 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(GroupController.class)
-class GroupControllerTest {
+@WebMvcTest(LoginController.class)
+class LoginControllerTest {
     @Autowired
     MockMvc mockMvc;
     @MockBean
-    private GroupServiceImpl groupServiceImpl;
+    private UserServiceImpl userServiceImpl;
 
     @Test
-    void groups_returnsView() throws Exception {
-        List<Group> groups = new ArrayList<>();
-        groups.add(new Group(1L, "aa-11", new Course(1L, "English")));
+    void users_returnsView() throws Exception {
+        List<User> users = new ArrayList<>();
+        users.add(new User(1L, "Dmytro", "Tkachuk", "email@gmail.com", "faculty", "department", Role.STUDENT, new Group(1L, "aa-11")));
 
-        given(groupServiceImpl.getAll()).willReturn(groups);
+        given(userServiceImpl.getAll()).willReturn(users);
 
-        mockMvc.perform(get("/groups"))
+        mockMvc.perform(get("/users"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("groups"))
-                .andExpect(model().attribute("groups", groups));
+                .andExpect(view().name("users"))
+                .andExpect(model().attribute("users", users));
 
-        verify(groupServiceImpl).getAll();
+        verify(userServiceImpl).getAll();
     }
 }

@@ -5,7 +5,6 @@ import com.example.universityschedule.exception.EntityNotCreatedException;
 import com.example.universityschedule.exception.EntityNotDeletedException;
 import com.example.universityschedule.exception.EntityNotFoundException;
 import com.example.universityschedule.exception.EntityNotUpdatedException;
-import com.example.universityschedule.mapper.UserMapper;
 import com.example.universityschedule.repository.GroupRepository;
 import com.example.universityschedule.repository.UserRepository;
 import com.example.universityschedule.service.impl.UserServiceImpl;
@@ -31,8 +30,6 @@ class UserServiceTest {
     private GroupRepository groupRepository;
     @MockBean
     private UserRepository userRepository;
-    @MockBean
-    private UserMapper userMapper;
 
     @Test
     void getAll_returnsCourses() {

@@ -1,13 +1,17 @@
 package com.example.universityschedule.mapper;
 
+import com.example.universityschedule.dto.UserDTO;
 import com.example.universityschedule.entity.User;
-import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValuePropertyMappingStrategy;
+
+import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateUser(User userUpdate, @MappingTarget User user);
+
+    User fromDto(UserDTO userDTO);
+    List<User> fromDto(List<UserDTO> userDTOS);
+
+    UserDTO toDto(User user);
+    List<UserDTO> toDto(List<User> users);
 }

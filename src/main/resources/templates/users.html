@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<div th:insert="navigation :: navbar"></div>
+<h2><a href="/logout">Log out</a></h2>
 
 <table border="1px solid black">
     <tr>
@@ -17,8 +17,8 @@
         <td>Department</td>
         <td>Faculty</td>
         <td>Role</td>
-        <td>Status</td>
-        <td>Group</td>
+        <td>Change Role</td>
+        <td>Active</td>
     </tr>
     <tr th:each="user : ${users}">
         <td th:text="${user.id}"></td>
@@ -28,8 +28,22 @@
         <td th:text="${user.department}"></td>
         <td th:text="${user.faculty}"></td>
         <td th:text="${user.role}"></td>
-        <td th:text="${user.status}"></td>
-        <td th:text="${user.group.name}"></td>
+        <td>
+            <form th:action="@{/admin/user/role/{id}(id=${user.id})}" method="post">
+                <input type="radio" id="admin" name="role" value="ADMIN">
+                <label for="admin">ADMIN</label><br>
+                <input type="radio" id="tutor" name="role" value="TUTOR">
+                <label for="tutor">TUTOR</label><br>
+                <input type="radio" id="student" name="role" value="STUDENT">
+                <label for="student">STUDENT</label>
+                <input type="submit" value="Submit">
+            </form>
+        </td>
+        <td>
+            <form th:action="@{/admin/user/ban/{id}(id=${user.id})}" method="post">
+                <input type="submit" th:value="${user.active}">
+            </form>
+        </td>
     </tr>
 </table>
 </body>
