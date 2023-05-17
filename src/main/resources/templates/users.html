@@ -1,10 +1,20 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Users</title>
 </head>
 <body>
+
+<div sec:authorize="hasAuthority('ADMIN')">
+    <div th:insert="navigation :: admin-navbar"></div>
+</div>
+<div sec:authorize="hasAuthority('TUTOR')">
+    <div th:insert="navigation :: tutor-navbar"></div>
+</div>
+<div sec:authorize="hasAuthority('STUDENT')">
+    <div th:insert="navigation :: student-navbar"></div>
+</div>
 
 <h2><a href="/logout">Log out</a></h2>
 
@@ -29,7 +39,7 @@
         <td th:text="${user.faculty}"></td>
         <td th:text="${user.role}"></td>
         <td>
-            <form th:action="@{/admin/user/role/{id}(id=${user.id})}" method="post">
+            <form th:action="@{/admin/users/role/{id}(id=${user.id})}" method="post">
                 <input type="radio" id="admin" name="role" value="ADMIN">
                 <label for="admin">ADMIN</label><br>
                 <input type="radio" id="tutor" name="role" value="TUTOR">
@@ -40,7 +50,7 @@
             </form>
         </td>
         <td>
-            <form th:action="@{/admin/user/ban/{id}(id=${user.id})}" method="post">
+            <form th:action="@{/admin/users/ban/{id}(id=${user.id})}" method="post">
                 <input type="submit" th:value="${user.active}">
             </form>
         </td>

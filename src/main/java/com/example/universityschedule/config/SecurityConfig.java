@@ -1,11 +1,11 @@
 package com.example.universityschedule.config;
 
-import com.example.universityschedule.security.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,6 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@EnableMethodSecurity
 public class SecurityConfig {
     private final UserDetailsService userDetailsService;
 
@@ -27,12 +28,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers("/registration")
                 .permitAll()
-                .requestMatchers("/admin/**")
-                .hasAuthority(Role.ADMIN.name())
-                .requestMatchers("/tutor/**")
-                .hasAnyAuthority(Role.TUTOR.name(), Role.ADMIN.name())
-                .requestMatchers("/student/**")
-                .hasAnyAuthority(Role.STUDENT.name(), Role.ADMIN.name())
                 .anyRequest()
                 .authenticated()
                 .and()
