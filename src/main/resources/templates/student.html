@@ -1,11 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Student</title>
 </head>
 <body>
 <h1>Student</h1>
+<div sec:authorize="hasAuthority('ADMIN')">
+    <div th:insert="navigation :: admin-navbar"></div>
+</div>
+<div sec:authorize="hasAuthority('TUTOR')">
+    <div th:insert="navigation :: tutor-navbar"></div>
+</div>
+<div sec:authorize="hasAuthority('STUDENT')">
+    <div th:insert="navigation :: student-navbar"></div>
+</div>
 <h2><a href="/logout">Log out</a></h2>
 </body>
 </html>

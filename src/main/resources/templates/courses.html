@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Courses</title>
+</head>
+<body>
+
+<div sec:authorize="hasAuthority('ADMIN')">
+    <div th:insert="navigation :: admin-navbar"></div>
+</div>
+<div sec:authorize="hasAuthority('TUTOR')">
+    <div th:insert="navigation :: tutor-navbar"></div>
+</div>
+<div sec:authorize="hasAuthority('STUDENT')">
+    <div th:insert="navigation :: student-navbar"></div>
+</div>
+
+<table border="1px solid black">
+    <tr>
+        <td>ID</td>
+        <td>Name</td>
+    </tr>
+    <tr th:each="course : ${courses}">
+        <td th:text="${course.id}"></td>
+        <td th:text="${course.name}"></td>
+
+        <td>
+            <form th:action="@{/courses/update}" method="post">
+                <label for="name"><b>name</b></label>
+                <input type="text" placeholder="Enter name" name="name" id="name" required>
+
+                <label>
+                    <input type="number" name="id" th:value="${course.id}" hidden="hidden">
+                </label>
+
+                <input type="submit" value="UPDATE">
+            </form>
+        </td>
+
+        <td>
+            <form th:action="@{/courses/delete/{id}(id=${course.id})}" method="post">
+                <input type="submit" value="DELETE">
+            </form>
+        </td>
+    </tr>
+</table>
+<form action="/courses/add" method="post">
+    <label for="name"><b>name</b></label>
+    <label>
+        <input type="text" placeholder="Enter name" name="name" required>
+    </label>
+
+    <button type="submit">Create</button>
+</form>
+</body>
+</html>
