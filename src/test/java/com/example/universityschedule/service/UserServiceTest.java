@@ -62,21 +62,21 @@ class UserServiceTest {
 
     @Test
     void update_validGroup_returnsUpdatedStudent() {
-        when(userRepository.save(any(User.class))).thenReturn(new User(1L));
-        when(userRepository.getReferenceById(any(Long.class))).thenReturn(new User(1L));
+        when(userRepository.save(any(User.class))).thenReturn(new User());
+        when(userRepository.getReferenceById(any(Long.class))).thenReturn(new User());
 
-        assertNotNull(userService.update(new User(1L)));
+        assertNotNull(userService.update(new User()));
         verify(userRepository).save(any(User.class));
         verify(userRepository).getReferenceById(any(Long.class));
     }
 
     @Test
     void update_invalidGroup_throwsException() {
-        when(userRepository.getReferenceById(any(Long.class))).thenReturn(new User(1L));
+        when(userRepository.getReferenceById(any(Long.class))).thenReturn(new User());
         when(userRepository.save(any(User.class))).thenThrow(IllegalArgumentException.class);
 
         EntityNotUpdatedException exception = assertThrows(EntityNotUpdatedException.class,
-                () -> userService.update(new User(1L)));
+                () -> userService.update(new User()));
 
         assertTrue(exception.getMessage().contains("not updated"));
         verify(userRepository).save(any(User.class));
