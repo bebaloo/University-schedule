@@ -37,21 +37,6 @@ public class User implements UserDetails {
     @JoinColumn(name = "group_id")
     private Group group;
 
-    public User(Long id) {
-        this.id = id;
-    }
-
-    public User(Long id, String firstname, String lastname, String email, String faculty, String department, Role role, Group group) {
-        this.id = id;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.email = email;
-        this.faculty = faculty;
-        this.department = department;
-        this.role = role;
-        this.group = group;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(new SimpleGrantedAuthority(role.name()));
