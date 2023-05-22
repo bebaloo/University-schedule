@@ -41,6 +41,4 @@ public class AdminController {
         userService.changeRole(id, role);
         return "redirect:/admin/users";
     }
-
-
 }
