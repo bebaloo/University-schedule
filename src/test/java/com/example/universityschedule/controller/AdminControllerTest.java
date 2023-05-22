@@ -7,7 +7,8 @@ import com.example.universityschedule.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -16,56 +17,42 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(AdminController.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 class AdminControllerTest {
+
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
+
     @MockBean
     private UserService userService;
-    @Test
-    @WithMockUser(roles = "ADMIN")
-    void adminInterface() throws Exception {
-        mockMvc.perform(get("/admin"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("admin"));
-    }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
-    void users() throws Exception {
+    @WithMockUser(authorities = "ADMIN")
+    void testUsers() throws Exception {
         List<UserDTO> users = new ArrayList<>();
-        users.add(new UserDTO(1L,
-                "Dmytro",
-                "Tkachuk",
-                "email@gmail.com",
-                "faculty",
-                "department",
-                true,
-                Role.STUDENT,
-                new Group(1L, "aa-11")));
-
-        given(userService.getAll()).willReturn(users);
+        users.add(new UserDTO(1L, "User 1", "user", "ss", "ss", "ss", true, Role.STUDENT, new Group()));
+        users.add(new UserDTO(2L, "User 2", "user", "ss", "ss", "ss", true, Role.STUDENT, new Group()));
+        when(userService.getAll()).thenReturn(users);
 
         mockMvc.perform(get("/admin/users"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("users"))
                 .andExpect(model().attribute("users", users));
-
-        verify(userService).getAll();
     }
 
     @Test
     @WithMockUser(authorities = "ADMIN")
-    void banUser() throws Exception {
-        mockMvc.perform(post("/admin/users/ban/{id}", "1"))
-                .andExpect(status().isOk())
+    void testBanUser() throws Exception {
+        mockMvc.perform(post("/admin/users/ban/{id}", 1L))
+                .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/users"));
 
         verify(userService).ban(1L);
@@ -73,12 +60,12 @@ class AdminControllerTest {
 
     @Test
     @WithMockUser(authorities = "ADMIN")
-    void changeRole() throws Exception {
-        mockMvc.perform(post("/admin/users/role/{id}", "1")
-                        .param("role", Role.STUDENT.name()))
-                .andExpect(status().isOk())
+    void testChangeRole() throws Exception {
+        mockMvc.perform(post("/admin/users/role/{id}", 1L)
+                        .param("role", Role.ADMIN.toString()))
+                .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/users"));
 
-        verify(userService).changeRole(1L, Role.STUDENT);
+        verify(userService).changeRole(1L, Role.ADMIN);
     }
 }

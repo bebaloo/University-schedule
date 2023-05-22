@@ -32,7 +32,8 @@ public class UserServiceImpl implements UserService {
 
     public List<UserDTO> getAll() {
         log.info("Getting all users");
-        return userMapper.toDto(userRepository.findAll())
+        return userMapper
+                .toDto(userRepository.findAll())
                 .stream()
                 .sorted(Comparator.comparing(UserDTO::id))
                 .toList();
