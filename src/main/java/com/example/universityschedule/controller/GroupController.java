@@ -27,6 +27,7 @@ public class GroupController {
     public String groups(Model model) {
         List<Group> groups = groupService.getAll();
         List<Course> courses = courseService.getAll();
+
         model.addAttribute("groups", groups);
         model.addAttribute("courses", courses);
         return "groups";
@@ -35,8 +36,8 @@ public class GroupController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/add")
     public String addGroup(@RequestParam String name, @RequestParam Long courseId, @RequestParam String password) {
-        Group group = new Group(name, password);
-        group.setCourse(courseService.getById(courseId));
+        Course course = courseService.getById(courseId);
+        Group group = new Group(name, password, course);
 
         groupService.create(group);
         return "redirect:/groups";
@@ -51,9 +52,8 @@ public class GroupController {
 
     @PostMapping("/{id}/students/add")
     public String addStudent(Principal principal, @PathVariable Long id, @RequestParam String password) {
-        Group group = groupService.getById(id);
 
-        if (group.getPassword().equals(password)) {
+        if (groupService.getById(id).getPassword().equals(password)) {
             User user = (User) userDetailsService.loadUserByUsername(principal.getName());
             groupService.addStudent(id, user.getId());
         }

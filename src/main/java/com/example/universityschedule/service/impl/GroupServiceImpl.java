@@ -79,6 +79,8 @@ public class GroupServiceImpl implements GroupService {
     public Group deleteById(Long id) {
         try {
             Group group = groupRepository.getReferenceById(id);
+            User user = userRepository.findByGroup_Id(id);
+            user.setGroup(null);
             groupRepository.delete(group);
             log.info(group + " was deleted");
 

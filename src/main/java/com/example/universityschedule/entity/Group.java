@@ -51,6 +51,12 @@ public class Group {
         this.password = password;
     }
 
+    public Group(String name, String password, Course course) {
+        this.name = name;
+        this.password = password;
+        this.course = course;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
