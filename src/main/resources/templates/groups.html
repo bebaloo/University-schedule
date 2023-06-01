@@ -5,6 +5,18 @@
     <title>Groups</title>
 </head>
 <body>
+
+<div sec:authorize="hasAuthority('ADMIN')">
+    <div th:insert="navigation :: admin-navbar"></div>
+</div>
+<div sec:authorize="hasAuthority('TUTOR')">
+    <div th:insert="navigation :: tutor-navbar"></div>
+</div>
+<div sec:authorize="hasAuthority('STUDENT')">
+    <div th:insert="navigation :: student-navbar"></div>
+</div>
+
+
 <table border="1px solid black">
     <tr>
         <td>ID</td>
@@ -41,6 +53,7 @@
         <label for="name">Name:</label><br>
         <input type="text" id="name" name="name"><br>
 
+        <h3>Choose course:</h3>
         <div th:each="course : ${courses}">
             <label>
                 <input type="radio" name="courseId" th:value="${course.id}">
