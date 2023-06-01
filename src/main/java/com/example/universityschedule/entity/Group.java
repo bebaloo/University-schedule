@@ -29,6 +29,7 @@ public class Group {
     private Course course;
     @OneToMany(mappedBy = "group")
     private Set<User> students = new HashSet<>();
+    private String password;
 
     public Group(String name) {
         this.name = name;
@@ -43,6 +44,11 @@ public class Group {
         this.id = id;
         this.name = name;
         this.course = course;
+    }
+
+    public Group(String name, String password) {
+        this.name = name;
+        this.password = password;
     }
 
     @Override
