@@ -44,6 +44,13 @@ public class GroupController {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("/update")
+    public String updateGroup(@RequestBody Group group) {
+        groupService.update(group);
+        return "redirect:/groups";
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/delete/{id}")
     public String deleteGroup(@PathVariable Long id) {
         groupService.deleteById(id);
