@@ -44,8 +44,9 @@ public class GroupController {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping("/update")
-    public String updateGroup(@RequestBody Group group) {
+    @PostMapping("/update/{id}")
+    public String updateGroup(@PathVariable Long id, String name) {
+        Group group = new Group(id, name);
         groupService.update(group);
         return "redirect:/groups";
     }

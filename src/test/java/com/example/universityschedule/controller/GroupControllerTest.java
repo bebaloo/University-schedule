@@ -69,6 +69,17 @@ class GroupControllerTest {
 
     @Test
     @WithMockUser(authorities = "ADMIN")
+    void testUpdateGroup() throws Exception {
+        mockMvc.perform(post("/groups/update/{id}", 1)
+                        .param("name", "ss"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/groups"));
+
+        verify(groupService).update(any(Group.class));
+    }
+
+    @Test
+    @WithMockUser(authorities = "ADMIN")
     void testDeleteGroup() throws Exception {
         mockMvc.perform(post("/groups/delete/{id}", 1L))
                 .andExpect(status().is3xxRedirection())
