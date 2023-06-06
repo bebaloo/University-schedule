@@ -2,6 +2,7 @@ package com.example.universityschedule.service.impl;
 
 import com.example.universityschedule.entity.Course;
 import com.example.universityschedule.entity.Group;
+import com.example.universityschedule.entity.User;
 import com.example.universityschedule.exception.EntityNotCreatedException;
 import com.example.universityschedule.exception.EntityNotDeletedException;
 import com.example.universityschedule.exception.EntityNotFoundException;
@@ -9,6 +10,7 @@ import com.example.universityschedule.exception.EntityNotUpdatedException;
 import com.example.universityschedule.mapper.GroupMapper;
 import com.example.universityschedule.repository.CourseRepository;
 import com.example.universityschedule.repository.GroupRepository;
+import com.example.universityschedule.repository.UserRepository;
 import com.example.universityschedule.service.GroupService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -23,6 +25,7 @@ import java.util.List;
 public class GroupServiceImpl implements GroupService {
     private final GroupRepository groupRepository;
     private final CourseRepository courseRepository;
+    private final UserRepository userRepository;
     private final GroupMapper groupMapper;
 
     public List<Group> getAll() {
@@ -76,6 +79,8 @@ public class GroupServiceImpl implements GroupService {
     public Group deleteById(Long id) {
         try {
             Group group = groupRepository.getReferenceById(id);
+            User user = userRepository.findByGroup_Id(id);
+            user.setGroup(null);
             groupRepository.delete(group);
             log.info(group + " was deleted");
 
@@ -112,6 +117,27 @@ public class GroupServiceImpl implements GroupService {
         } catch (RuntimeException e) {
             log.warn("Course with id: " + courseId + " was not added to group with id: " + groupId);
             throw new EntityNotUpdatedException("Course with id: " + courseId + " was not added to group with id: " + groupId);
+        }
+    }
+
+    public List<Group> getByCourseId(Long courseId) {
+        log.info("Getting groups by course id: " + courseId);
+        return groupRepository.findByCourse_Id(courseId);
+    }
+
+    @Override
+    public void addStudent(Long groupId, Long userId) {
+        try {
+            Group group = groupRepository.findById(groupId).orElseThrow(EntityNotFoundException::new);
+            User user = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
+
+            user.setGroup(group);
+
+            userRepository.save(user);
+            log.warn("User with id: " + userId + " was not added to group with id: " + groupId);
+        } catch (RuntimeException e) {
+            log.warn("User with id: " + userId + " was not added to group with id: " + groupId);
+            throw new EntityNotUpdatedException("User with id: " + userId + " was not added to group with id: " + groupId);
         }
     }
 }

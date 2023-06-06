@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Groups</title>
+</head>
+<body>
+
+<div sec:authorize="hasAuthority('ADMIN')">
+    <div th:insert="navigation :: admin-navbar"></div>
+</div>
+<div sec:authorize="hasAuthority('TUTOR')">
+    <div th:insert="navigation :: tutor-navbar"></div>
+</div>
+<div sec:authorize="hasAuthority('STUDENT')">
+    <div th:insert="navigation :: student-navbar"></div>
+</div>
+
+
+<table border="1px solid black">
+    <tr>
+        <td>ID</td>
+        <td>Name</td>
+        <td>Students</td>
+    </tr>
+    <tr th:each="group : ${groups}">
+        <td th:text="${group.id}"></td>
+        <td th:text="${group.name}"></td>
+        <td th:each="student : ${group.students}">
+            <span th:text="${student.firstname}"></span>
+            <span th:text="${student.lastname}"></span>
+        </td>
+        <td>
+            <form th:action="@{/groups/{id}/students/add(id=${group.id})}" method="post">
+                <label>
+                    <input type="text" name="password">
+                </label>
+                <input type="submit" value="join">
+            </form>
+        </td>
+        <td>
+            <div sec:authorize="hasAuthority('ADMIN')">
+                <form th:action="@{/groups/delete/{id}(id=${group.id})}" method="post">
+                    <input type="submit" value="DELETE">
+                </form>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<div sec:authorize="hasAuthority('ADMIN')">
+    <form action="/groups/add" method="post">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name"><br>
+
+        <h3>Choose course:</h3>
+        <div th:each="course : ${courses}">
+            <label>
+                <input type="radio" name="courseId" th:value="${course.id}">
+            </label>
+            <label th:text="${course.name}"></label>
+        </div>
+
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password"><br>
+        <button type="submit">Create</button>
+    </form>
+</div>
+</body>
+</html>
