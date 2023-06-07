@@ -50,7 +50,7 @@ public class GroupController {
     public String updateGroup(@PathVariable Long id, String name) {
         Group group = new Group(id, name);
         groupService.update(group);
-        return "redirect:/groups/" + id;
+        return String.format("redirect:/groups/%d", id);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -68,22 +68,24 @@ public class GroupController {
             groupService.addStudent(id, user.getId());
         }
 
-        return "redirect:/groups/" + id;
+        return String.format("redirect:/groups/%d", id);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/students/delete/{id}")
     public String deleteStudent(@PathVariable Long id) {
         userService.deleteGroup(id);
-        return "redirect:/admin/users/" + id;
+        return String.format("redirect:/admin/users/%d", id);
     }
 
     @GetMapping("/{id}")
     public String groupInfo(@PathVariable Long id, Model model, Principal principal) {
         Group group = groupService.getById(id);
+
         User user = (User) userDetailsService.loadUserByUsername(principal.getName());
 
-        boolean isInGroup = group.getStudents().contains(user);
+        boolean isInGroup = group.getStudents().stream()
+                .anyMatch(u -> u.getId().equals(user.getId()));
 
         model.addAttribute("group", group);
         model.addAttribute("isInGroup", isInGroup);

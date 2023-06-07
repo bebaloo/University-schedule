@@ -33,11 +33,11 @@ public class LessonServiceImpl implements LessonService {
     public Lesson getById(Long id) {
         try {
             Lesson lesson = lessonRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-            log.info("Getting " + lesson);
+            log.info("Getting {}", lesson);
 
             return lesson;
         } catch (RuntimeException e) {
-            log.info("Lesson with id: " + id + " not found");
+            log.info("Lesson with id: {} not found", id);
             throw new EntityNotFoundException("Lesson with id: " + id + " not found");
         }
     }
@@ -46,11 +46,11 @@ public class LessonServiceImpl implements LessonService {
     public Lesson create(Lesson lesson) {
         try {
             Lesson createdLesson = lessonRepository.save(lesson);
-            log.info(lesson + " was created");
+            log.info("{} was created", lesson);
 
             return createdLesson;
         } catch (RuntimeException e) {
-            log.warn(lesson + " was not created");
+            log.warn("{} was not created", lesson);
             throw new EntityNotCreatedException(lesson + " was not created");
         }
     }
@@ -63,11 +63,11 @@ public class LessonServiceImpl implements LessonService {
             lessonMapper.updateLesson(lesson, lessonToUpdate);
             lessonRepository.save(lessonToUpdate);
 
-            log.info(lessonToUpdate + " was updated");
+            log.info("{} was updated", lessonToUpdate);
 
             return lessonToUpdate;
         } catch (RuntimeException e) {
-            log.warn(lesson + " not updated");
+            log.warn("{} not updated", lesson);
             throw new EntityNotUpdatedException(lesson + " not updated");
         }
     }
@@ -77,11 +77,11 @@ public class LessonServiceImpl implements LessonService {
         try {
             Lesson lesson = lessonRepository.getReferenceById(id);
             lessonRepository.delete(lesson);
-            log.info(lesson + " was deleted");
+            log.info("{} was deleted", lesson);
 
             return lesson;
         } catch (RuntimeException e) {
-            log.warn("Lesson with: " + id + " not deleted");
+            log.warn("Lesson with: {} not deleted", id);
             throw new EntityNotDeletedException("Lesson with: " + id + " not deleted");
         }
     }
@@ -90,11 +90,11 @@ public class LessonServiceImpl implements LessonService {
     public List<Lesson> createAll(List<Lesson> lessons) {
         try {
             List<Lesson> createdLessons = lessonRepository.saveAll(lessons);
-            log.info(lessons + " were created");
+            log.info("{} were created", lessons);
 
             return createdLessons;
         } catch (RuntimeException e) {
-            log.warn(lessons + " were not created");
+            log.warn("{} were not created", lessons);
             throw new EntityNotCreatedException(lessons + " were not created");
         }
     }
@@ -108,9 +108,9 @@ public class LessonServiceImpl implements LessonService {
             lesson.setGroup(group);
 
             lessonRepository.save(lesson);
-            log.info("Group with id: " + groupId + " was added to lesson with id: " + lessonId);
+            log.info("Group with id: {} was added to lesson with id: {}", groupId, lessonId);
         } catch (RuntimeException e) {
-            log.info("Group with id: " + groupId + " was not added to lesson with id: " + lessonId);
+            log.info("Group with id: {} was not added to lesson with id: {}", groupId, lessonId);
             throw new EntityNotUpdatedException("Group with id: " + groupId + " was not added to lesson with id: " + lessonId);
         }
     }

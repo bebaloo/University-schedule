@@ -42,11 +42,11 @@ public class UserServiceImpl implements UserService {
     public UserDTO getById(Long id) {
         try {
             User user = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-            log.info("Getting " + user);
+            log.info("Getting user: {}", user);
 
             return userMapper.toDto(user);
         } catch (RuntimeException e) {
-            log.info("User with id: " + id + " not found");
+            log.info("User with id: {} not found", id);
             throw new EntityNotFoundException("User with id: " + id + " not found");
         }
     }
@@ -55,12 +55,12 @@ public class UserServiceImpl implements UserService {
     public UserDTO create(User user) {
         try {
             User createdUser = userRepository.save(user);
-            log.info(user + " was created");
+            log.info("User: {} was created", user);
 
             return userMapper.toDto(createdUser);
         } catch (RuntimeException e) {
-            log.warn(user + " was not created");
-            throw new EntityNotCreatedException(user + " was not created");
+            log.warn("User: {} was not created", user);
+            throw new EntityNotCreatedException("User: " + user + " was not created");
         }
     }
 
@@ -71,12 +71,12 @@ public class UserServiceImpl implements UserService {
 
             userRepository.save(mapUpdate(userToUpdate, user));
 
-            log.info(userToUpdate + " was updated");
+            log.info("User: {} was updated", userToUpdate);
 
             return userMapper.toDto(userToUpdate);
         } catch (RuntimeException e) {
-            log.warn(user + " not updated");
-            throw new EntityNotUpdatedException(user + " not updated");
+            log.warn("User: {} not updated", user);
+            throw new EntityNotUpdatedException("User: " + user + " not updated");
         }
     }
 
@@ -85,11 +85,11 @@ public class UserServiceImpl implements UserService {
         try {
             User user = userRepository.getReferenceById(id);
             userRepository.delete(user);
-            log.info(user + " was deleted");
+            log.info("User: {} was deleted", user);
 
             return userMapper.toDto(user);
         } catch (RuntimeException e) {
-            log.warn("User with: " + id + " not deleted");
+            log.warn("User with id: {} not deleted", id);
             throw new EntityNotDeletedException("User with: " + id + " not deleted");
         }
     }
@@ -98,12 +98,12 @@ public class UserServiceImpl implements UserService {
     public List<UserDTO> createAll(List<User> users) {
         try {
             List<User> createdUsers = userRepository.saveAll(users);
-            log.info(users + " were created");
+            log.info("Users: {} were created", users);
 
             return userMapper.toDto(createdUsers);
         } catch (RuntimeException e) {
-            log.warn(users + " were not created");
-            throw new EntityNotCreatedException(users + " were not created");
+            log.warn("Users: {} were not created", users);
+            throw new EntityNotCreatedException("Users: " + users + " were not created");
         }
     }
 
@@ -116,10 +116,10 @@ public class UserServiceImpl implements UserService {
             student.setGroup(group);
 
             userRepository.save(student);
-            log.info("Student with id: " + studentId + " was added to group with id: " + groupId);
+            log.info("Student with id: {} was added to group with id: {}", studentId, groupId);
         } catch (RuntimeException e) {
-            log.info("Student with id: " + studentId + " was not added to group with id: " + groupId);
-            throw new EntityNotUpdatedException("Student with id: " + studentId + " was added to group with id: " + groupId);
+            log.info("Student with id: {} was not added to group with id: {}", studentId, groupId);
+            throw new EntityNotUpdatedException("Student with id: " + studentId + " was not added to group with id: " + groupId);
         }
     }
 
@@ -131,11 +131,10 @@ public class UserServiceImpl implements UserService {
             student.setGroup(null);
 
             userRepository.save(student);
-            log.info("Student with id: " + userId + " was deleted from group");
+            log.info("Student with id: {} was deleted from group", userId);
         } catch (RuntimeException e) {
-            log.info("Student with id: " + userId + " was not deleted grom group");
-            throw new EntityNotUpdatedException("Student with id: " + userId + " was not deleted grom group");
-
+            log.info("Student with id: {} was not deleted from group", userId);
+            throw new EntityNotUpdatedException("Student with id: " + userId + " was not deleted from group");
         }
     }
 
@@ -148,8 +147,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByEmail(username).orElseThrow(()
-                -> new UsernameNotFoundException("User with email: " + username + " not found"));
+        return userRepository.findByEmail(username).orElseThrow(() ->
+                new UsernameNotFoundException("User with email: " + username + " not found"));
     }
 
     @Override

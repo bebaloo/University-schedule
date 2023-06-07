@@ -29,12 +29,13 @@ public class CourseServiceImpl implements CourseService {
 
     public Course getById(Long id) {
         try {
-            Course course = courseRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-            log.info("Getting " + course);
+            Course course = courseRepository.findById(id)
+                    .orElseThrow(EntityNotFoundException::new);
+            log.info("Getting {}", course);
 
             return course;
         } catch (RuntimeException e) {
-            log.info("Course with id: " + id + " not found");
+            log.info("Course with id: {} not found", id);
             throw new EntityNotFoundException("Course with id: " + id + " not found");
         }
     }
@@ -43,11 +44,11 @@ public class CourseServiceImpl implements CourseService {
     public Course create(Course course) {
         try {
             Course createdCourse = courseRepository.save(course);
-            log.info(course + " was created");
+            log.info("{} was created", course);
 
             return createdCourse;
         } catch (RuntimeException e) {
-            log.warn(course + " was not created");
+            log.warn("{} was not created", course);
             throw new EntityNotCreatedException(course + " was not created");
         }
     }
@@ -60,11 +61,11 @@ public class CourseServiceImpl implements CourseService {
             courseMapper.updateCourse(course, courseToUpdate);
             courseRepository.save(courseToUpdate);
 
-            log.info(courseToUpdate + " was updated");
+            log.info("{} was updated", courseToUpdate);
 
             return courseToUpdate;
         } catch (RuntimeException e) {
-            log.warn(course + " not updated");
+            log.warn("{} not updated", course);
             throw new EntityNotUpdatedException(course + " not updated");
         }
     }
@@ -74,11 +75,11 @@ public class CourseServiceImpl implements CourseService {
         try {
             Course course = courseRepository.getReferenceById(id);
             courseRepository.delete(course);
-            log.info(course + " was deleted");
+            log.info("{} was deleted", course);
 
             return course;
         } catch (RuntimeException e) {
-            log.warn("Course with: " + id + " not deleted");
+            log.warn("Course with: {} not deleted", id);
             throw new EntityNotDeletedException("Course with: " + id + " not deleted");
         }
     }
@@ -87,11 +88,11 @@ public class CourseServiceImpl implements CourseService {
     public List<Course> createAll(List<Course> courses) {
         try {
             List<Course> createdCourses = courseRepository.saveAll(courses);
-            log.info(courses + " was created");
+            log.info("{} was created", courses);
 
             return createdCourses;
         } catch (RuntimeException e) {
-            log.warn(courses + " were not created");
+            log.warn("{} were not created", courses);
             throw new EntityNotCreatedException(courses + " were not created");
         }
     }
