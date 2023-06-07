@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -68,4 +69,17 @@ class AdminControllerTest {
 
         verify(userService).changeRole(1L, Role.ADMIN);
     }
+
+
+    @Test
+    @WithMockUser(authorities = "ADMIN")
+    void testUserInfo() throws Exception {
+        UserDTO user = new UserDTO(1L, "User 1", "user", "ss", "ss", "ss", true, Role.STUDENT, new Group());
+        when(userService.getById(any(Long.class))).thenReturn(user);
+        mockMvc.perform(get("/admin/users/{id}", 1L))
+                .andExpect(status().isOk())
+                .andExpect(view().name("user-info"))
+                .andExpect(model().attribute("user", user));
+    }
+
 }
