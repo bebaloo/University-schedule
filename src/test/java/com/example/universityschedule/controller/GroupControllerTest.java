@@ -73,7 +73,7 @@ class GroupControllerTest {
         mockMvc.perform(post("/groups/update/{id}", 1)
                         .param("name", "ss"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/groups"));
+                .andExpect(redirectedUrl("/groups/1"));
 
         verify(groupService).update(any(Group.class));
     }

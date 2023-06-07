@@ -13,7 +13,7 @@ import com.example.universityschedule.repository.GroupRepository;
 import com.example.universityschedule.repository.UserRepository;
 import com.example.universityschedule.service.GroupService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +21,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Log4j2
+@Slf4j
 public class GroupServiceImpl implements GroupService {
     private final GroupRepository groupRepository;
     private final CourseRepository courseRepository;
@@ -36,11 +36,11 @@ public class GroupServiceImpl implements GroupService {
     public Group getById(Long id) {
         try {
             Group group = groupRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-            log.info("Getting " + group);
+            log.info("Getting {}", group);
 
             return group;
         } catch (RuntimeException e) {
-            log.info("Group with id: " + id + " not found");
+            log.info("Group with id: {} not found", id);
             throw new EntityNotFoundException("Group with id: " + id + " not found");
         }
     }
@@ -49,11 +49,11 @@ public class GroupServiceImpl implements GroupService {
     public Group create(Group group) {
         try {
             Group createdCourse = groupRepository.save(group);
-            log.info(group + " was created");
+            log.info("{} was created", group);
 
             return createdCourse;
         } catch (RuntimeException e) {
-            log.warn(group + " was not created");
+            log.warn("{} was not created", group);
             throw new EntityNotCreatedException(group + " was not created");
         }
     }
@@ -66,11 +66,11 @@ public class GroupServiceImpl implements GroupService {
             groupMapper.updateGroup(group, groupToUpdate);
             groupRepository.save(groupToUpdate);
 
-            log.info(groupToUpdate + " was updated");
+            log.info("{} was updated", groupToUpdate);
 
             return groupToUpdate;
         } catch (RuntimeException e) {
-            log.warn(group + " not updated");
+            log.warn("{} not updated", group);
             throw new EntityNotUpdatedException(group + " not updated");
         }
     }
@@ -82,11 +82,11 @@ public class GroupServiceImpl implements GroupService {
             User user = userRepository.findByGroup_Id(id);
             user.setGroup(null);
             groupRepository.delete(group);
-            log.info(group + " was deleted");
+            log.info("{} was deleted", group);
 
             return group;
         } catch (RuntimeException e) {
-            log.warn("Group with: " + id + " not deleted");
+            log.warn("Group with: {} not deleted", id);
             throw new EntityNotDeletedException("Group with: " + id + " not deleted");
         }
     }
@@ -95,11 +95,11 @@ public class GroupServiceImpl implements GroupService {
     public List<Group> createAll(List<Group> groups) {
         try {
             List<Group> createdCourses = groupRepository.saveAll(groups);
-            log.info(groups + " were created");
+            log.info("{} were created", groups);
 
             return createdCourses;
         } catch (RuntimeException e) {
-            log.warn(groups + " were not created");
+            log.warn("{} were not created", groups);
             throw new EntityNotCreatedException(groups + " were not created");
         }
     }
@@ -113,15 +113,15 @@ public class GroupServiceImpl implements GroupService {
             group.setCourse(course);
 
             groupRepository.save(group);
-            log.info("Course with id: " + courseId + " was added to group with id: " + groupId);
+            log.info("Course with id: {} was added to group with id: {}", courseId, groupId);
         } catch (RuntimeException e) {
-            log.warn("Course with id: " + courseId + " was not added to group with id: " + groupId);
+            log.warn("Course with id: {} was not added to group with id: {}", courseId, groupId);
             throw new EntityNotUpdatedException("Course with id: " + courseId + " was not added to group with id: " + groupId);
         }
     }
 
     public List<Group> getByCourseId(Long courseId) {
-        log.info("Getting groups by course id: " + courseId);
+        log.info("Getting groups by course id: {}", courseId);
         return groupRepository.findByCourse_Id(courseId);
     }
 
@@ -134,9 +134,9 @@ public class GroupServiceImpl implements GroupService {
             user.setGroup(group);
 
             userRepository.save(user);
-            log.warn("User with id: " + userId + " was not added to group with id: " + groupId);
+            log.warn("User with id: {} was added to group with id: {}", userId, groupId);
         } catch (RuntimeException e) {
-            log.warn("User with id: " + userId + " was not added to group with id: " + groupId);
+            log.warn("User with id: {} was not added to group with id: {}", userId, groupId);
             throw new EntityNotUpdatedException("User with id: " + userId + " was not added to group with id: " + groupId);
         }
     }

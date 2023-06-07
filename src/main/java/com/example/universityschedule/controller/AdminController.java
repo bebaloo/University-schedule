@@ -33,12 +33,19 @@ public class AdminController {
     @PostMapping("/users/ban/{id}")
     public String banUser(@PathVariable Long id) {
         userService.ban(id);
-        return "redirect:/admin/users";
+        return String.format("redirect:/admin/users/%d", id);
     }
 
     @PostMapping("/users/role/{id}")
     public String changeRole(@PathVariable Long id, @RequestParam Role role) {
         userService.changeRole(id, role);
-        return "redirect:/admin/users";
+        return String.format("redirect:/admin/users/%d", id);
+    }
+
+    @GetMapping("/users/{id}")
+    public String userInfo(@PathVariable Long id, Model model) {
+        UserDTO user = userService.getById(id);
+        model.addAttribute("user", user);
+        return "user-info";
     }
 }

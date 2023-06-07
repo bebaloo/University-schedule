@@ -13,5 +13,5 @@ public interface GroupService {
     List<Group> createAll(List<Group> groups);
     void addCourse(Long groupId, Long courseId);
     List<Group> getByCourseId(Long id);
-    void addStudent(Long groupId, Long userId);
+    void addStudent(Long groupId, Long studentId);
 }

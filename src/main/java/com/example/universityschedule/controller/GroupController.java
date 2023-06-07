@@ -5,6 +5,7 @@ import com.example.universityschedule.entity.Group;
 import com.example.universityschedule.entity.User;
 import com.example.universityschedule.service.CourseService;
 import com.example.universityschedule.service.GroupService;
+import com.example.universityschedule.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,6 +23,7 @@ public class GroupController {
     private final GroupService groupService;
     private final CourseService courseService;
     private final UserDetailsService userDetailsService;
+    private final UserService userService;
 
     @GetMapping
     public String groups(Model model) {
@@ -48,7 +50,7 @@ public class GroupController {
     public String updateGroup(@PathVariable Long id, String name) {
         Group group = new Group(id, name);
         groupService.update(group);
-        return "redirect:/groups";
+        return String.format("redirect:/groups/%d", id);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -66,6 +68,28 @@ public class GroupController {
             groupService.addStudent(id, user.getId());
         }
 
-        return "redirect:/groups";
+        return String.format("redirect:/groups/%d", id);
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("/students/delete/{id}")
+    public String deleteStudent(@PathVariable Long id) {
+        userService.deleteGroup(id);
+        return String.format("redirect:/admin/users/%d", id);
+    }
+
+    @GetMapping("/{id}")
+    public String groupInfo(@PathVariable Long id, Model model, Principal principal) {
+        Group group = groupService.getById(id);
+
+        User user = (User) userDetailsService.loadUserByUsername(principal.getName());
+
+        boolean isInGroup = group.getStudents().stream()
+                .anyMatch(u -> u.getId().equals(user.getId()));
+
+        model.addAttribute("group", group);
+        model.addAttribute("isInGroup", isInGroup);
+
+        return "group-info";
     }
 }
