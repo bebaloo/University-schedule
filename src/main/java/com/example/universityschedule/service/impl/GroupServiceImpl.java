@@ -134,7 +134,7 @@ public class GroupServiceImpl implements GroupService {
             user.setGroup(group);
 
             userRepository.save(user);
-            log.warn("User with id: " + userId + " was not added to group with id: " + groupId);
+            log.warn("User with id: " + userId + " was added to group with id: " + groupId);
         } catch (RuntimeException e) {
             log.warn("User with id: " + userId + " was not added to group with id: " + groupId);
             throw new EntityNotUpdatedException("User with id: " + userId + " was not added to group with id: " + groupId);

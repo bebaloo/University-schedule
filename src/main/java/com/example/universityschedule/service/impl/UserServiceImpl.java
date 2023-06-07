@@ -124,6 +124,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void deleteGroup(Long userId) {
+        try {
+            User student = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
+
+            student.setGroup(null);
+
+            userRepository.save(student);
+            log.info("Student with id: " + userId + " was deleted from group");
+        } catch (RuntimeException e) {
+            log.info("Student with id: " + userId + " was not deleted grom group");
+            throw new EntityNotUpdatedException("Student with id: " + userId + " was not deleted grom group");
+
+        }
+    }
+
+    @Override
     public void changeRole(Long id, Role role) {
         User user = userRepository.getReferenceById(id);
         user.setRole(role);

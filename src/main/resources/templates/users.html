@@ -27,8 +27,7 @@
         <td>Department</td>
         <td>Faculty</td>
         <td>Role</td>
-        <td>Change Role</td>
-        <td>Active</td>
+        <td>Group</td>
     </tr>
     <tr th:each="user : ${users}">
         <td th:text="${user.id}"></td>
@@ -38,22 +37,8 @@
         <td th:text="${user.department}"></td>
         <td th:text="${user.faculty}"></td>
         <td th:text="${user.role}"></td>
-        <td>
-            <form th:action="@{/admin/users/role/{id}(id=${user.id})}" method="post">
-                <input type="radio" id="admin" name="role" value="ADMIN">
-                <label for="admin">ADMIN</label><br>
-                <input type="radio" id="tutor" name="role" value="TUTOR">
-                <label for="tutor">TUTOR</label><br>
-                <input type="radio" id="student" name="role" value="STUDENT">
-                <label for="student">STUDENT</label>
-                <input type="submit" value="Submit">
-            </form>
-        </td>
-        <td>
-            <form th:action="@{/admin/users/ban/{id}(id=${user.id})}" method="post">
-                <input type="submit" th:value="${user.active}">
-            </form>
-        </td>
+        <td th:text="${user.group != null ? user.group.name : 'None'}"></td>
+        <td><a th:href="@{/admin/users/{id}(id=${user.id})}"> Go to user</a></td>
     </tr>
 </table>
 </body>

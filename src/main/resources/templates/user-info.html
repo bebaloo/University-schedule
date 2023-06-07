@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User</title>
+</head>
+<body>
+
+<div th:insert="navigation :: admin-navbar"></div>
+
+<b>Firstname: </b> <b th:text="${user.firstname}"></b><br><br>
+<b>Lastname: </b> <b th:text="${user.lastname}"></b><br><br>
+<b>Group: </b> <b th:text="${user.group != null ? user.group.name : 'None'}"></b><br><br>
+<b>Role: </b> <b th:text="${user.role}"></b><br><br>
+
+<form th:action="@{/admin/users/role/{id}(id=${user.id})}" method="post">
+    <input type="radio" id="admin" name="role" value="ADMIN">
+    <label for="admin">ADMIN</label><br>
+    <input type="radio" id="tutor" name="role" value="TUTOR">
+    <label for="tutor">TUTOR</label><br>
+    <input type="radio" id="student" name="role" value="STUDENT">
+    <label for="student">STUDENT</label>
+    <input type="submit" value="Submit">
+</form>
+
+<form th:action="@{/admin/users/ban/{id}(id=${user.id})}" method="post">
+    <input type="submit" th:value="${user.active}">
+</form>
+
+<form th:action="@{/groups/students/delete/{id}(id=${user.id})}" method="post">
+    <input type="submit" value="Delete user from group">
+</form>
+</body>
+</html>
