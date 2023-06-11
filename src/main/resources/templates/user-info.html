@@ -13,7 +13,7 @@
 <b>Group: </b> <b th:text="${user.group != null ? user.group.name : 'None'}"></b><br><br>
 <b>Role: </b> <b th:text="${user.role}"></b><br><br>
 
-<form th:action="@{/admin/users/role/{id}(id=${user.id})}" method="post">
+<form th:action="@{/users/role/{id}(id=${user.id})}" method="post">
     <input type="radio" id="admin" name="role" value="ADMIN">
     <label for="admin">ADMIN</label><br>
     <input type="radio" id="tutor" name="role" value="TUTOR">
@@ -23,7 +23,7 @@
     <input type="submit" value="Submit">
 </form>
 
-<form th:action="@{/admin/users/ban/{id}(id=${user.id})}" method="post">
+<form th:action="@{/users/ban/{id}(id=${user.id})}" method="post">
     <input type="submit" th:value="${user.active}">
 </form>
 

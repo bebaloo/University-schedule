@@ -38,7 +38,7 @@
         <td th:text="${user.faculty}"></td>
         <td th:text="${user.role}"></td>
         <td th:text="${user.group != null ? user.group.name : 'None'}"></td>
-        <td><a th:href="@{/admin/users/{id}(id=${user.id})}"> Go to user</a></td>
+        <td><a th:href="@{/users/{id}(id=${user.id})}"> Go to user</a></td>
     </tr>
 </table>
 </body>

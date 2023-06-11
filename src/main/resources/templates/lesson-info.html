@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Lesson</title>
+</head>
+<body>
+<div sec:authorize="hasAuthority('ADMIN')">
+    <div th:insert="navigation :: admin-navbar"></div>
+</div>
+<div sec:authorize="hasAuthority('TUTOR')">
+    <div th:insert="navigation :: tutor-navbar"></div>
+</div>
+<div sec:authorize="hasAuthority('STUDENT')">
+    <div th:insert="navigation :: student-navbar"></div>
+</div>
+
+<b>Subject: </b> <b th:text="${lesson.name}"></b><br><br>
+<b>Number: </b> <b th:text="${lesson.number}"></b><br><br>
+<b>Day: </b> <b th:text="${lesson.dayOfWeek}"></b><br><br>
+<b>Group: </b> <b th:text="${lesson.group.name}"></b><br><br>
+<b>Tutor: </b> <b th:text="${lesson.tutor.firstname +' '+ lesson.tutor.lastname}"></b><br><br>
+<b>Classroom: </b> <b th:text="${lesson.classroom}"></b><br><br>
+
+
+<div sec:authorize="hasAuthority('ADMIN')">
+    <h2>Update Lesson</h2>
+
+    <form action="/lessons/update" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" th:default="null"><br>
+
+        <label for="classroom">Classroom:</label>
+        <input type="text" id="classroom" name="classroom" th:default="null"><br>
+
+        <label for="number">Number:</label>
+        <input type="number" id="number" name="number" th:default="null"><br>
+
+        <label for="dayOfWeek">Day of Week:</label>
+        <select id="dayOfWeek" name="dayOfWeek">
+            <option value="MONDAY">Monday</option>
+            <option value="TUESDAY">Tuesday</option>
+            <option value="WEDNESDAY">Wednesday</option>
+            <option value="THURSDAY">Thursday</option>
+            <option value="FRIDAY">Friday</option>
+            <option value="SATURDAY">Saturday</option>
+            <option value="SUNDAY">Sunday</option>
+        </select><br>
+
+        <label for="tutorId">Tutor:</label>
+        <select id="tutorId" name="tutorId">
+            <div th:each="tutor:${tutors}">
+                <option th:value="${tutor.id}">
+                    <th:block th:text="${tutor.firstname + ' ' + tutor.lastname}"></th:block>
+                </option>
+            </div>
+        </select><br>
+
+        <label for="groupId">Group:</label>
+        <select id="groupId" name="groupId">
+            <div th:each="group:${groups}">
+                <option th:value="${group.id}">
+                    <th:block th:text="${group.name}"></th:block>
+                </option>
+            </div>
+        </select><br>
+
+        <label>
+            <input type="number" name="id" th:value="${lesson.id}" hidden="hidden">
+        </label>
+
+        <input type="submit" value="Update">
+    </form>
+</div>
+
+<div sec:authorize="hasAuthority('ADMIN')">
+    <form th:action="@{/lessons/delete/{id}(id=${lesson.id})}" method="post">
+        <input type="submit" value="DELETE">
+    </form>
+</div>
+
+</body>
+</html>
