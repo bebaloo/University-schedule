@@ -24,6 +24,7 @@ public class Lesson {
     private Long id;
     private String name;
     private String classroom;
+    private Byte number;
     @Enumerated(EnumType.STRING)
     private DayOfWeek dayOfWeek;
     @ManyToOne(fetch = FetchType.LAZY)

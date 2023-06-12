@@ -161,6 +161,11 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+    @Override
+    public List<UserDTO> getTutors() {
+        return userMapper.toDto(userRepository.findByRole(Role.TUTOR));
+    }
+
     private User mapUpdate(User userToUpdate, User user) {
         if (user.getFirstname() != null) {
             userToUpdate.setFirstname(user.getFirstname());

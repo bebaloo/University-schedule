@@ -45,7 +45,7 @@
             <td th:text="${student.faculty}"></td>
             <td>
                 <div sec:authorize="hasAuthority('ADMIN')">
-                    <a th:href="@{/admin/users/{id}(id=${student.id})}"> Go to user</a>
+                    <a th:href="@{/users/{id}(id=${student.id})}"> Go to user</a>
                 </div>
             </td>
         </tr>

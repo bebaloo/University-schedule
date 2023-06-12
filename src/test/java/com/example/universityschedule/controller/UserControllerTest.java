@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-class AdminControllerTest {
+class UserControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -43,7 +43,7 @@ class AdminControllerTest {
         users.add(new UserDTO(2L, "User 2", "user", "ss", "ss", "ss", true, Role.STUDENT, new Group()));
         when(userService.getAll()).thenReturn(users);
 
-        mockMvc.perform(get("/admin/users"))
+        mockMvc.perform(get("/users/users"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("users"))
                 .andExpect(model().attribute("users", users));
@@ -52,7 +52,7 @@ class AdminControllerTest {
     @Test
     @WithMockUser(authorities = "ADMIN")
     void testBanUser() throws Exception {
-        mockMvc.perform(post("/admin/users/ban/{id}", 1L))
+        mockMvc.perform(post("/users/users/ban/{id}", 1L))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/users"));
 
@@ -62,7 +62,7 @@ class AdminControllerTest {
     @Test
     @WithMockUser(authorities = "ADMIN")
     void testChangeRole() throws Exception {
-        mockMvc.perform(post("/admin/users/role/{id}", 1L)
+        mockMvc.perform(post("/users/users/role/{id}", 1L)
                         .param("role", Role.ADMIN.toString()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/users"));
@@ -76,7 +76,7 @@ class AdminControllerTest {
     void testUserInfo() throws Exception {
         UserDTO user = new UserDTO(1L, "User 1", "user", "ss", "ss", "ss", true, Role.STUDENT, new Group());
         when(userService.getById(any(Long.class))).thenReturn(user);
-        mockMvc.perform(get("/admin/users/{id}", 1L))
+        mockMvc.perform(get("/users/users/{id}", 1L))
                 .andExpect(status().isOk())
                 .andExpect(view().name("user-info"))
                 .andExpect(model().attribute("user", user));

@@ -27,4 +27,5 @@ public interface UserService extends UserDetailsService {
     void changeRole(Long id, Role role);
 
     void ban(Long id);
+    List<UserDTO> getTutors();
 }

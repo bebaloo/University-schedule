@@ -2,19 +2,21 @@ package com.example.universityschedule.service.impl;
 
 import com.example.universityschedule.entity.Group;
 import com.example.universityschedule.entity.Lesson;
+import com.example.universityschedule.entity.User;
 import com.example.universityschedule.exception.EntityNotCreatedException;
 import com.example.universityschedule.exception.EntityNotDeletedException;
 import com.example.universityschedule.exception.EntityNotFoundException;
 import com.example.universityschedule.exception.EntityNotUpdatedException;
-import com.example.universityschedule.mapper.LessonMapper;
 import com.example.universityschedule.repository.GroupRepository;
 import com.example.universityschedule.repository.LessonRepository;
+import com.example.universityschedule.security.Role;
 import com.example.universityschedule.service.LessonService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -23,7 +25,6 @@ import java.util.List;
 public class LessonServiceImpl implements LessonService {
     private final LessonRepository lessonRepository;
     private final GroupRepository groupRepository;
-    private final LessonMapper lessonMapper;
 
     public List<Lesson> getAll() {
         log.info("Getting all lessons");
@@ -58,10 +59,10 @@ public class LessonServiceImpl implements LessonService {
     @Transactional
     public Lesson update(Lesson lesson) {
         try {
-            Lesson lessonToUpdate = lessonRepository.getReferenceById(lesson.getId());
+            Lesson lessonToUpdate = lessonRepository.findById(lesson.getId()).orElseThrow(EntityNotFoundException::new);
 
-            lessonMapper.updateLesson(lesson, lessonToUpdate);
-            lessonRepository.save(lessonToUpdate);
+
+            lessonRepository.save(mapUpdate(lessonToUpdate, lesson));
 
             log.info("{} was updated", lessonToUpdate);
 
@@ -113,5 +114,47 @@ public class LessonServiceImpl implements LessonService {
             log.info("Group with id: {} was not added to lesson with id: {}", groupId, lessonId);
             throw new EntityNotUpdatedException("Group with id: " + groupId + " was not added to lesson with id: " + lessonId);
         }
+    }
+
+    @Override
+    public List<Lesson> getByUser(User user) {
+        List<Lesson> lessons;
+
+        if (user.getRole() == Role.ADMIN) {
+            lessons = getAll();
+        } else if (user.getRole() == Role.TUTOR) {
+            lessons = lessonRepository.findByTutor(user);
+        } else {
+            Group group = groupRepository.findByStudents(user);
+            lessons = lessonRepository.findByGroup(group);
+        }
+
+        return lessons.stream()
+                .sorted(Comparator
+                        .comparing(Lesson::getDayOfWeek)
+                        .thenComparing(Lesson::getNumber))
+                .toList();
+    }
+
+    private Lesson mapUpdate(Lesson lessonToUpdate, Lesson updatedLesson) {
+        if (updatedLesson.getName() != null) {
+            lessonToUpdate.setName(updatedLesson.getName());
+        }
+        if (updatedLesson.getClassroom() != null) {
+            lessonToUpdate.setClassroom(updatedLesson.getClassroom());
+        }
+        if (updatedLesson.getNumber() != null) {
+            lessonToUpdate.setNumber(updatedLesson.getNumber());
+        }
+        if (updatedLesson.getDayOfWeek() != null) {
+            lessonToUpdate.setDayOfWeek(updatedLesson.getDayOfWeek());
+        }
+        if (updatedLesson.getTutor() != null) {
+            lessonToUpdate.setTutor(updatedLesson.getTutor());
+        }
+        if (updatedLesson.getGroup() != null) {
+            lessonToUpdate.setGroup(updatedLesson.getGroup());
+        }
+        return lessonToUpdate;
     }
 }

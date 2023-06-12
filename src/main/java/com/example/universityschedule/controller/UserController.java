@@ -12,37 +12,32 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/users")
 @RequiredArgsConstructor
 @PreAuthorize("hasAuthority('ADMIN')")
-public class AdminController {
+public class UserController {
     private final UserService userService;
 
-    @GetMapping
-    public String adminInterface() {
-        return "admin";
-    }
-
-    @GetMapping("/users")
+    @GetMapping()
     public String users(Model model) {
         List<UserDTO> users = userService.getAll();
         model.addAttribute("users", users);
         return "users";
     }
 
-    @PostMapping("/users/ban/{id}")
+    @PostMapping("/ban/{id}")
     public String banUser(@PathVariable Long id) {
         userService.ban(id);
         return String.format("redirect:/admin/users/%d", id);
     }
 
-    @PostMapping("/users/role/{id}")
+    @PostMapping("/role/{id}")
     public String changeRole(@PathVariable Long id, @RequestParam Role role) {
         userService.changeRole(id, role);
         return String.format("redirect:/admin/users/%d", id);
     }
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/{id}")
     public String userInfo(@PathVariable Long id, Model model) {
         UserDTO user = userService.getById(id);
         model.addAttribute("user", user);

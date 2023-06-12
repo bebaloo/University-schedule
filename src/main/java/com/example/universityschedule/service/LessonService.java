@@ -1,6 +1,7 @@
 package com.example.universityschedule.service;
 
 import com.example.universityschedule.entity.Lesson;
+import com.example.universityschedule.entity.User;
 
 import java.util.List;
 
@@ -13,4 +14,5 @@ public interface LessonService {
     List<Lesson> createAll(List<Lesson> lessons);
 
     void addGroup(Long lessonId, Long groupId);
+    List<Lesson> getByUser(User user);
 }
