@@ -7,7 +7,6 @@ import com.example.universityschedule.exception.EntityNotCreatedException;
 import com.example.universityschedule.exception.EntityNotDeletedException;
 import com.example.universityschedule.exception.EntityNotFoundException;
 import com.example.universityschedule.exception.EntityNotUpdatedException;
-import com.example.universityschedule.mapper.LessonMapper;
 import com.example.universityschedule.repository.GroupRepository;
 import com.example.universityschedule.repository.LessonRepository;
 import com.example.universityschedule.security.Role;
@@ -26,7 +25,6 @@ import java.util.List;
 public class LessonServiceImpl implements LessonService {
     private final LessonRepository lessonRepository;
     private final GroupRepository groupRepository;
-    private final LessonMapper lessonMapper;
 
     public List<Lesson> getAll() {
         log.info("Getting all lessons");
@@ -63,8 +61,8 @@ public class LessonServiceImpl implements LessonService {
         try {
             Lesson lessonToUpdate = lessonRepository.findById(lesson.getId()).orElseThrow(EntityNotFoundException::new);
 
-            mapUpdate(lessonToUpdate, lesson);
-            lessonRepository.save(lessonToUpdate);
+
+            lessonRepository.save(mapUpdate(lessonToUpdate, lesson));
 
             log.info("{} was updated", lessonToUpdate);
 

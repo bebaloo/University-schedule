@@ -8,7 +8,6 @@ import com.example.universityschedule.service.LessonService;
 import com.example.universityschedule.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +22,6 @@ import java.util.List;
 @RequestMapping("/lessons")
 @RequiredArgsConstructor
 public class LessonController {
-    private final UserDetailsService userDetailsService;
     private final LessonService lessonService;
     private final GroupService groupService;
     private final UserService userService;
@@ -31,7 +29,7 @@ public class LessonController {
 
     @GetMapping
     public String lessons(Principal principal, Model model) {
-        User user = (User) userDetailsService.loadUserByUsername(principal.getName());
+        User user = (User) userService.loadUserByUsername(principal.getName());
         List<Lesson> lessons = lessonService.getByUser(user);
 
         model.addAttribute("lessons", lessons);

@@ -19,7 +19,9 @@
 <b>Number: </b> <b th:text="${lesson.number}"></b><br><br>
 <b>Day: </b> <b th:text="${lesson.dayOfWeek}"></b><br><br>
 <b>Group: </b> <b th:text="${lesson.group.name}"></b><br><br>
-<b>Tutor: </b> <b th:text="${lesson.tutor.firstname +' '+ lesson.tutor.lastname}"></b><br><br>
+<div th:if="${lesson.tutor == null}">
+    <b>Tutor: </b> <b th:text="${lesson.tutor.firstname +' '+ lesson.tutor.lastname}"></b><br><br>
+</div>
 <b>Classroom: </b> <b th:text="${lesson.classroom}"></b><br><br>
 
 
