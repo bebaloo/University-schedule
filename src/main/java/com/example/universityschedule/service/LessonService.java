@@ -12,7 +12,6 @@ public interface LessonService {
     Lesson update(Lesson lesson);
     Lesson deleteById(Long id);
     List<Lesson> createAll(List<Lesson> lessons);
-
     void addGroup(Long lessonId, Long groupId);
     List<Lesson> getByUser(User user);
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
+import java.time.DayOfWeek;
 import java.util.List;
 
 @Controller
@@ -32,6 +33,8 @@ public class LessonController {
         User user = (User) userService.loadUserByUsername(principal.getName());
         List<Lesson> lessons = lessonService.getByUser(user);
 
+
+        model.addAttribute("daysOfWeek", DayOfWeek.values());
         model.addAttribute("lessons", lessons);
         model.addAttribute("tutors", userService.getTutors());
         model.addAttribute("groups", groupService.getAll());

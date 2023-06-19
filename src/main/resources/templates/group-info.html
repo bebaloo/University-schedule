@@ -19,7 +19,7 @@
 <b>Name: </b> <b th:text="${group.name}"></b><br><br>
 <b>Course: </b> <b th:text="${group.course.name}"></b><br><br>
 
-<form th:action="@{/groups/{id}/students/add(id=${group.id})}" method="post">
+<form th:action="@{/groups/{id}/students/add(id=${group.id})}" method="post" sec:authorize="hasAuthority('STUDENT')">
     <label>
         <input type="text" name="password">
     </label>
