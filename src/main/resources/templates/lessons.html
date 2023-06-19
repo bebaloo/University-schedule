@@ -3,6 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Lessons</title>
+
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+    </style>
 </head>
 <body>
 
@@ -16,60 +27,90 @@
     <div th:insert="navigation :: student-navbar"></div>
 </div>
 
-<div th:each="lesson : ${lessons}">
-    <b>Number: </b> <b th:text="${lesson.number}"></b><br><br>
-    <b>Subject: </b> <b th:text="${lesson.name}"></b><br><br>
-    <b>Tutor: </b> <b th:text="${lesson.tutor.firstname + ' ' +lesson.tutor.lastname}"></b><br><br>
-    <b>Day: </b> <b th:text="${lesson.dayOfWeek}"></b><br><br>
-    <b>Classroom: </b> <b th:text="${lesson.classroom}"></b><br><br>
-    <b>Group: </b> <b th:text="${lesson.group.name}"></b><br><br>
-    <form th:action="@{/lessons/{id}(id=${lesson.id})}" method="get">
-        <input type="submit" value="Go to lesson">
+<table>
+    <thead>
+    <tr>
+        <th>Day Of Week</th>
+        <th>Lessons</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="dayOfWeek : ${daysOfWeek}">
+        <td th:text="${dayOfWeek}"></td>
+        <td>
+            <table>
+                <tbody>
+                <tr>
+                    <td>Number</td>
+                    <td>Subject</td>
+                    <td>Tutor</td>
+                    <td>Classroom</td>
+                    <td>Group</td>
+                </tr>
+                <tr th:each="lesson : ${lessons}">
+                    <td th:if="${lesson.dayOfWeek == dayOfWeek}" th:text="${lesson.number}"></td>
+                    <td th:if="${lesson.dayOfWeek == dayOfWeek}" th:text="${lesson.name}"></td>
+                    <td th:if="${lesson.dayOfWeek == dayOfWeek}"
+                        th:text="${lesson.tutor.firstname + ' ' + lesson.tutor.lastname}"></td>
+                    <td th:if="${lesson.dayOfWeek == dayOfWeek}" th:text="${lesson.classroom}"></td>
+                    <td th:if="${lesson.dayOfWeek == dayOfWeek}" th:text="${lesson.group.name}"></td>
+                    <td th:if="${lesson.dayOfWeek == dayOfWeek}">
+                        <form th:action="@{/lessons/{id}(id=${lesson.id})}" method="get">
+                            <input type="submit" value="Go to lesson">
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<div sec:authorize="hasAuthority('ADMIN')">
+
+    <h2>Create Lesson</h2>
+
+    <form action="/lessons/create" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br>
+
+        <label for="classroom">Classroom:</label>
+        <input type="text" id="classroom" name="classroom" required><br>
+
+        <label for="number">Number:</label>
+        <input type="number" id="number" name="number" required><br>
+
+        <label for="dayOfWeek">Day of Week:</label>
+        <select id="dayOfWeek" name="dayOfWeek" required>
+            <option value="MONDAY">Monday</option>
+            <option value="TUESDAY">Tuesday</option>
+            <option value="WEDNESDAY">Wednesday</option>
+            <option value="THURSDAY">Thursday</option>
+            <option value="FRIDAY">Friday</option>
+            <option value="SATURDAY">Saturday</option>
+            <option value="SUNDAY">Sunday</option>
+        </select><br>
+
+        <label for="tutorId">Tutor:</label>
+        <select id="tutorId" name="tutorId" required>
+            <div th:each="tutor:${tutors}">
+                <option th:value="${tutor.id}">
+                    <th:block th:text="${tutor.firstname + ' ' + tutor.lastname}"></th:block>
+                </option>
+            </div>
+        </select><br>
+
+        <label for="groupId">Group:</label>
+        <select id="groupId" name="groupId" required>
+            <div th:each="group:${groups}">
+                <option th:value="${group.id}">
+                    <th:block th:text="${group.name}"></th:block>
+                </option>
+            </div>
+        </select><br>
+
+        <input type="submit" value="Create">
     </form>
 </div>
-
-<h2>Create Lesson</h2>
-<form action="/lessons/create" method="post">
-    <label for="name">Name:</label>
-    <input type="text" id="name" name="name" required><br>
-
-    <label for="classroom">Classroom:</label>
-    <input type="text" id="classroom" name="classroom" required><br>
-
-    <label for="number">Number:</label>
-    <input type="number" id="number" name="number" required><br>
-
-    <label for="dayOfWeek">Day of Week:</label>
-    <select id="dayOfWeek" name="dayOfWeek" required>
-        <option value="MONDAY">Monday</option>
-        <option value="TUESDAY">Tuesday</option>
-        <option value="WEDNESDAY">Wednesday</option>
-        <option value="THURSDAY">Thursday</option>
-        <option value="FRIDAY">Friday</option>
-        <option value="SATURDAY">Saturday</option>
-        <option value="SUNDAY">Sunday</option>
-    </select><br>
-
-    <label for="tutorId">Tutor:</label>
-    <select id="tutorId" name="tutorId" required>
-        <div th:each="tutor:${tutors}">
-            <option th:value="${tutor.id}">
-                <th:block th:text="${tutor.firstname + ' ' + tutor.lastname}"></th:block>
-            </option>
-        </div>
-    </select><br>
-
-    <label for="groupId">Group:</label>
-    <select id="groupId" name="groupId" required>
-        <div th:each="group:${groups}">
-            <option th:value="${group.id}">
-                <th:block th:text="${group.name}"></th:block>
-            </option>
-        </div>
-    </select><br>
-
-    <input type="submit" value="Create">
-</form>
-
 </body>
 </html>

@@ -6,28 +6,28 @@
 </head>
 <nav th:fragment="admin-navbar" class="admin-navbar">
     <ul>
-        <li><a th:href="@{/admin}">Home</a></li>
         <li><a th:href="@{/users}">Users</a></li>
         <li><a th:href="@{/courses}">Courses</a></li>
         <li><a th:href="@{/groups}">Groups</a></li>
         <li><a th:href="@{/lessons}">Lessons</a></li>
+        <li><a th:href="@{/logout}">Log out</a></li>
     </ul>
 </nav>
 
 <nav th:fragment="tutor-navbar" class="tutor-navbar">
     <ul>
-        <li><a th:href="@{/tutor}">Home</a></li>
         <li><a th:href="@{/courses}">Courses</a></li>
         <li><a th:href="@{/groups}">Groups</a></li>
         <li><a th:href="@{/lessons}">Lessons</a></li>
+        <li><a th:href="@{/logout}">Log out</a></li>
     </ul>
 </nav>
 
 <nav th:fragment="student-navbar" class="student-navbar">
     <ul>
-        <li><a th:href="@{/student}">Home</a></li>
         <li><a th:href="@{/courses}">Courses</a></li>
         <li><a th:href="@{/groups}">Groups</a></li>
         <li><a th:href="@{/lessons}">Lessons</a></li>
+        <li><a th:href="@{/logout}">Log out</a></li>
     </ul>
 </nav>
