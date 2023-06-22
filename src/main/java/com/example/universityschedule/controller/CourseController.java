@@ -1,7 +1,9 @@
 package com.example.universityschedule.controller;
 
 import com.example.universityschedule.entity.Course;
+import com.example.universityschedule.entity.Group;
 import com.example.universityschedule.service.CourseService;
+import com.example.universityschedule.service.GroupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -18,11 +20,23 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CourseController {
     private final CourseService courseService;
+    private final GroupService groupService;
+
     @GetMapping
     public String courses(Model model) {
         List<Course> courses = courseService.getAll();
         model.addAttribute("courses", courses);
         return "courses";
+    }
+
+    @GetMapping("/{id}")
+    public String courseInfo(@PathVariable Long id, Model model) {
+        Course course = courseService.getById(id);
+        List<Group> groups = groupService.getByCourseId(id);
+
+        model.addAttribute("course", course);
+        model.addAttribute("groups", groups);
+        return "course-info";
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")

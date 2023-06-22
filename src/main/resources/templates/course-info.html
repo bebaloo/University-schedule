@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Course info</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+<a th:href="@{/courses}">Courses</a><br><br><br><br>
+<b>Name: </b> <b th:text="${course.name}"></b><br><br>
+<th:block th:if="${!groups.isEmpty()}">
+    <table>
+        <tr>
+            <td>Groups</td>
+        </tr>
+        <tr th:each="group:${groups}">
+            <td th:text="${group.name}"></td>
+            <td>
+                <table>
+                    <thead>
+                    <tr>
+                        <td>Students</td>
+                    </tr>
+                    <tr>
+                        <th>Firstname</th>
+                        <th>Lastname</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="student:${group.students}">
+                        <td th:text="${student.firstname}"></td>
+                        <td th:text="${student.lastname}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+</th:block>
+</body>
+</html>
