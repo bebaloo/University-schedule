@@ -27,6 +27,11 @@
         <td th:text="${course.name}"></td>
 
         <td>
+            <form th:action="@{/courses/{id}(id=${course.id})}" method="get">
+                <input type="submit" value="Show students">
+            </form>
+        </td>
+        <td>
             <div sec:authorize="hasAuthority('ADMIN')">
                 <form th:action="@{/courses/update}" method="post">
                     <label for="name"><b>name</b></label>
@@ -40,7 +45,6 @@
                 </form>
             </div>
         </td>
-
         <td>
             <div sec:authorize="hasAuthority('ADMIN')">
                 <form th:action="@{/courses/delete/{id}(id=${course.id})}" method="post">
